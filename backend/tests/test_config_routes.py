@@ -21,7 +21,7 @@ def test_get_historical_events():
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
-    assert len(data) == 6
+    assert len(data) == 20
     first = data[0]
     assert "id" in first
     assert "title" in first

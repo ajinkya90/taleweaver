@@ -75,3 +75,261 @@
     - "Cooking food over fire made it easier to eat and digest"
     - "The ability to control fire was one of humanity's greatest achievements"
   thumbnail: "discovery-of-fire.webp"
+
+# ── Indian History ──
+
+- id: ashoka-kalinga-war
+  title: "Ashoka's Transformation After the Kalinga War"
+  figure: "Emperor Ashoka"
+  year: -261
+  summary: "The mighty Mauryan emperor witnesses the horrors of war and transforms into a messenger of peace and compassion."
+  key_facts:
+    - "Ashoka was the grandson of Chandragupta Maurya and the third emperor of the Maurya dynasty"
+    - "He invaded the kingdom of Kalinga (modern-day Odisha) around 261 BCE to expand his empire"
+    - "The Kalinga War was one of the bloodiest battles in ancient history, with over 100,000 soldiers killed and 150,000 deported"
+    - "After seeing the terrible suffering caused by the war, Ashoka was filled with deep remorse"
+    - "He converted to Buddhism and vowed never to wage war again"
+    - "He sent Buddhist missionaries across Asia, helping spread the religion to Sri Lanka, Central Asia, and Southeast Asia"
+    - "He erected stone pillars across India inscribed with edicts promoting non-violence, religious tolerance, and welfare of all beings"
+    - "The Ashoka Chakra, a 24-spoke wheel from his pillars, appears on India's national flag today"
+    - "He built hospitals for both people and animals, and planted trees along roads for travelers' shade"
+    - "Ashoka is remembered as one of the greatest and most compassionate rulers in world history"
+  thumbnail: "ashoka-kalinga-war.webp"
+
+- id: chandragupta-maurya-rise
+  title: "Chandragupta Maurya's Rise to Power"
+  figure: "Chandragupta Maurya"
+  year: -322
+  summary: "A determined young man guided by the brilliant strategist Chanakya overthrows a powerful dynasty and builds India's first great empire."
+  key_facts:
+    - "Chandragupta Maurya founded the Maurya Empire around 322 BCE, one of the largest empires in Indian history"
+    - "He was guided by his teacher and advisor Chanakya (also called Kautilya), who wrote the famous political treatise Arthashastra"
+    - "Together they overthrew the Nanda dynasty, which ruled the powerful kingdom of Magadha"
+    - "Chandragupta defeated the Greek generals left behind by Alexander the Great in northwestern India"
+    - "He signed a treaty with the Greek general Seleucus Nicator and received territories including parts of modern Afghanistan"
+    - "His empire stretched from Bengal in the east to Afghanistan in the west, and from the Himalayas to the Deccan plateau"
+    - "The Greek ambassador Megasthenes visited his court and wrote about the splendor of the capital Pataliputra (modern Patna)"
+    - "Chandragupta maintained a vast army estimated at 600,000 infantry, 30,000 cavalry, and 9,000 war elephants"
+    - "According to Jain tradition, he renounced his throne in old age and became a Jain monk"
+    - "He is believed to have fasted to death at Shravanabelagola in Karnataka, following the Jain practice of Sallekhana"
+  thumbnail: "chandragupta-maurya-rise.webp"
+
+- id: bose-ina-azad-hind
+  title: "Subhas Chandra Bose and the Indian National Army"
+  figure: "Subhas Chandra Bose"
+  year: 1943
+  summary: "A fearless Indian leader raises an army overseas to fight for India's freedom from British rule."
+  key_facts:
+    - "Subhas Chandra Bose was a prominent Indian independence leader who believed in armed struggle against British rule"
+    - "He escaped British house arrest in Kolkata in 1941 by disguising himself and traveling through Afghanistan to Germany"
+    - "He traveled by German and Japanese submarines from Europe to Southeast Asia in 1943"
+    - "He reorganized the Indian National Army (INA) also known as Azad Hind Fauj with Indian prisoners of war captured by Japan"
+    - "He established the Azad Hind (Free India) provisional government in Singapore on October 21, 1943"
+    - "His famous rallying cry was 'Give me blood, and I shall give you freedom' (Tum mujhe khoon do, main tumhe azadi doonga)"
+    - "The INA included the Rani of Jhansi Regiment, one of the first female combat units in Asian military history"
+    - "The INA fought alongside Japanese forces in the battles of Imphal and Kohima in 1944 against the British"
+    - "He addressed Indians as 'Jai Hind' which later became a national greeting in independent India"
+    - "The INA trials in Delhi's Red Fort in 1945 stirred massive public support and weakened British resolve to hold India"
+  thumbnail: "bose-ina-azad-hind.webp"
+
+- id: kalam-slv3-launch
+  title: "Dr. APJ Abdul Kalam and India's First Satellite Launch Vehicle"
+  figure: "Dr. APJ Abdul Kalam"
+  year: 1980
+  summary: "A humble scientist from a small town leads India's space program to successfully launch its first satellite into orbit."
+  key_facts:
+    - "Dr. APJ Abdul Kalam was born in 1931 in Rameswaram, Tamil Nadu, to a humble family of boat owners"
+    - "He studied aerospace engineering and joined ISRO (Indian Space Research Organisation) in 1969"
+    - "He was appointed the project director of India's first Satellite Launch Vehicle, SLV-3"
+    - "On July 18, 1980, SLV-3 successfully placed the Rohini satellite into Earth's orbit, making India the sixth nation to achieve this"
+    - "The first test flight of SLV-3 in 1979 had failed, but Kalam and his team persevered and fixed the problems"
+    - "He later led India's missile development program, earning him the title 'Missile Man of India'"
+    - "He played a key role in developing the Agni and Prithvi missiles under the Integrated Guided Missile Development Programme"
+    - "He became the 11th President of India in 2002, often called the 'People's President'"
+    - "He was passionate about inspiring young people and spent much of his time visiting schools and colleges"
+    - "His autobiography 'Wings of Fire' tells the story of his journey from a small-town boy to a leading scientist"
+  thumbnail: "kalam-slv3-launch.webp"
+
+- id: bhagat-singh-assembly
+  title: "Bhagat Singh's Act of Defiance in the Central Assembly"
+  figure: "Bhagat Singh"
+  year: 1929
+  summary: "A young revolutionary throws smoke bombs in the British Indian assembly — not to hurt anyone, but to make the deaf hear."
+  key_facts:
+    - "Bhagat Singh was born on September 28, 1907, in Lyallpur, Punjab (now in Pakistan)"
+    - "On April 8, 1929, he and Batukeshwar Dutt threw two smoke bombs into the Central Legislative Assembly in Delhi"
+    - "The bombs were deliberately made to be harmless — the goal was to create noise and draw attention, not to injure anyone"
+    - "After throwing the bombs, they shouted 'Inquilab Zindabad' (Long Live the Revolution) and scattered leaflets"
+    - "The leaflets declared 'It takes a loud voice to make the deaf hear' — a quote from French anarchist Auguste Vaillant"
+    - "They did not attempt to escape and willingly surrendered to the police to use the trial as a platform"
+    - "During his trial, Bhagat Singh used the courtroom to speak about Indian independence and workers' rights"
+    - "He went on a long hunger strike in jail demanding better treatment for political prisoners"
+    - "Bhagat Singh, along with Rajguru and Sukhdev, was executed by hanging on March 23, 1931, at the age of just 23"
+    - "He became one of the most celebrated martyrs of India's independence movement, inspiring generations of Indians"
+  thumbnail: "bhagat-singh-assembly.webp"
+
+# ── World History ──
+
+- id: great-pyramid-giza
+  title: "Building the Great Pyramid of Giza"
+  figure: "Pharaoh Khufu"
+  year: -2560
+  summary: "Thousands of workers build the tallest structure in the world — a giant pyramid that would stand for over 4,500 years."
+  key_facts:
+    - "The Great Pyramid was built around 2560 BCE as a tomb for Pharaoh Khufu (also known as Cheops in Greek)"
+    - "It was the tallest man-made structure in the world for over 3,800 years, standing about 481 feet (146 meters) tall originally"
+    - "It is made of approximately 2.3 million stone blocks, each weighing an average of 2.5 tons"
+    - "Modern archaeologists believe it was built by skilled paid workers, not slaves as was once commonly thought"
+    - "It took an estimated 20 years and a workforce of around 20,000 to 30,000 laborers to complete"
+    - "The base of the pyramid covers about 13 acres and is nearly perfectly level, with less than 1 inch of variation"
+    - "The four sides of the base are aligned almost exactly with the four cardinal directions — north, south, east, and west"
+    - "Inside the pyramid are three main chambers: the King's Chamber, the Queen's Chamber, and a subterranean chamber"
+    - "It is the oldest and only surviving wonder of the original Seven Wonders of the Ancient World"
+    - "Workers' villages discovered nearby show they had bakeries, breweries, and medical facilities"
+  thumbnail: "great-pyramid-giza.webp"
+
+- id: alexander-india-campaign
+  title: "Alexander the Great's Campaign into India"
+  figure: "Alexander the Great"
+  year: -326
+  summary: "The young conqueror from Macedonia crosses into India and faces the mighty King Porus and his war elephants."
+  key_facts:
+    - "Alexander the Great crossed the Indus River and entered the Indian subcontinent in 326 BCE"
+    - "He was only 29 years old and had already conquered the Persian Empire, Egypt, and Central Asia"
+    - "He fought the Battle of Hydaspes (modern Jhelum River in Pakistan) against King Porus of the Paurava kingdom"
+    - "Porus deployed around 200 war elephants, which the Macedonian soldiers had never faced in such numbers before"
+    - "Despite being outnumbered in elephants, Alexander used clever tactics to cross the river at night during a storm"
+    - "After a fierce battle, Porus was defeated but fought so bravely that Alexander was deeply impressed"
+    - "When asked how he wished to be treated, Porus replied 'As a king treats another king' — and Alexander restored his kingdom"
+    - "Alexander's exhausted soldiers refused to march further east into India and demanded to return home"
+    - "This mutiny at the river Hyphasis (Beas) marked the eastern-most extent of Alexander's conquests"
+    - "Alexander died in Babylon in 323 BCE at the age of 32, never returning to his homeland of Macedonia"
+  thumbnail: "alexander-india-campaign.webp"
+
+- id: leonardo-da-vinci-renaissance
+  title: "Leonardo da Vinci in Renaissance Florence"
+  figure: "Leonardo da Vinci"
+  year: 1500
+  summary: "A brilliant artist, inventor, and scientist creates masterpieces and imagines machines centuries ahead of his time."
+  key_facts:
+    - "Leonardo da Vinci was born in 1452 in the town of Vinci near Florence, Italy"
+    - "He painted the Mona Lisa, one of the most famous paintings in the world, now housed in the Louvre Museum in Paris"
+    - "His mural The Last Supper, painted on a wall in Milan, depicts Jesus's final meal with his apostles"
+    - "He filled thousands of notebook pages with sketches and ideas written in mirror script (backwards writing)"
+    - "He designed flying machines, a helicopter-like aerial screw, an armored vehicle, and a diving suit — centuries before they were built"
+    - "He studied human anatomy by dissecting over 30 human bodies, creating detailed drawings of muscles, bones, and organs"
+    - "His famous Vitruvian Man drawing shows the ideal proportions of the human body inside a circle and a square"
+    - "He worked as an engineer, architect, and military advisor for powerful patrons including Ludovico Sforza and Cesare Borgia"
+    - "He was largely self-taught and considered one of the greatest polymaths — a person with knowledge in many different fields"
+    - "He died in 1519 in France, reportedly in the arms of King Francis I, who admired him deeply"
+  thumbnail: "leonardo-da-vinci-renaissance.webp"
+
+- id: marie-curie-radium
+  title: "Marie Curie's Discovery of Radium"
+  figure: "Marie Curie"
+  year: 1898
+  summary: "A determined scientist discovers a glowing new element and becomes the first woman to win a Nobel Prize."
+  key_facts:
+    - "Marie Curie was born Maria Sklodowska in Warsaw, Poland in 1867 and moved to Paris to study science"
+    - "She and her husband Pierre Curie discovered two new elements: polonium (named after her homeland Poland) and radium in 1898"
+    - "They worked in a converted shed with no proper ventilation, processing tons of a mineral called pitchblende to extract tiny amounts of radium"
+    - "In 1903, Marie became the first woman to win a Nobel Prize, sharing the Physics prize with Pierre and Henri Becquerel"
+    - "In 1911, she won a second Nobel Prize, this time in Chemistry, making her the first person to win Nobel Prizes in two different sciences"
+    - "She coined the term 'radioactivity' to describe the rays emitted by uranium and other elements"
+    - "During World War I, she developed mobile X-ray units called 'petites Curies' to help doctors find bullets in wounded soldiers"
+    - "She personally drove these mobile X-ray vans to the front lines and trained other women to operate them"
+    - "She died in 1934 from aplastic anemia, likely caused by years of exposure to radiation without protection"
+    - "Her laboratory notebooks are still so radioactive that they must be stored in lead-lined boxes and handled with protective clothing"
+  thumbnail: "marie-curie-radium.webp"
+
+- id: rosa-parks-bus-boycott
+  title: "Rosa Parks and the Montgomery Bus Boycott"
+  figure: "Rosa Parks"
+  year: 1955
+  summary: "A courageous woman refuses to give up her bus seat, sparking a movement that changes America forever."
+  key_facts:
+    - "On December 1, 1955, Rosa Parks refused to give up her seat to a white passenger on a bus in Montgomery, Alabama"
+    - "Under Montgomery's segregation laws, Black passengers had to sit in the back and give up seats to white passengers if the front filled up"
+    - "Rosa Parks was arrested and fined $10 plus $4 in court costs for violating the segregation law"
+    - "Her arrest inspired the Montgomery Bus Boycott, organized by a young minister named Dr. Martin Luther King Jr."
+    - "About 40,000 Black bus riders — roughly 75% of Montgomery's bus passengers — boycotted the buses for 381 days"
+    - "Many people walked miles to work or organized carpools rather than ride the segregated buses"
+    - "The boycott caused severe financial strain on the bus company, which lost most of its revenue"
+    - "On November 13, 1956, the U.S. Supreme Court ruled in Browder v. Gayle that bus segregation was unconstitutional"
+    - "Rosa Parks was not the first Black person to resist bus segregation — Claudette Colvin had done so nine months earlier"
+    - "Rosa Parks became known as 'the Mother of the Civil Rights Movement' and received the Presidential Medal of Freedom in 1996"
+  thumbnail: "rosa-parks-bus-boycott.webp"
+
+# ── Science & Exploration ──
+
+- id: darwin-beagle-voyage
+  title: "Darwin's Voyage on the Beagle"
+  figure: "Charles Darwin"
+  year: 1831
+  summary: "A young naturalist sails around the world on a ship called the Beagle and discovers clues that change how we understand life."
+  key_facts:
+    - "Charles Darwin set sail from Plymouth, England on HMS Beagle on December 27, 1831, when he was just 22 years old"
+    - "The voyage lasted nearly five years, returning on October 2, 1836, and covered around 40,000 miles"
+    - "On the Galapagos Islands, Darwin noticed that finches on different islands had differently shaped beaks suited to different foods"
+    - "He collected thousands of specimens including fossils, plants, insects, birds, and marine creatures during the journey"
+    - "In South America, he discovered giant fossils of extinct animals like the Megatherium (giant sloth) that resembled living species"
+    - "He observed that animals on islands often resembled species on the nearest mainland, but with important differences"
+    - "These observations led him to develop his theory of evolution by natural selection over the next 20 years"
+    - "He published his famous book 'On the Origin of Species' in 1859, which changed biology forever"
+    - "Darwin initially wanted to be a doctor but was horrified by surgery performed without anesthesia"
+    - "He suffered terrible seasickness throughout the voyage and spent as much time as possible on land"
+  thumbnail: "darwin-beagle-voyage.webp"
+
+- id: galileo-telescope-church
+  title: "Galileo's Telescope and Challenging the Church"
+  figure: "Galileo Galilei"
+  year: 1610
+  summary: "An Italian scientist builds a powerful telescope and discovers that Earth is not the center of the universe."
+  key_facts:
+    - "In 1609, Galileo Galilei improved the design of an existing Dutch spyglass to build a telescope about 20 times more powerful"
+    - "In January 1610, he discovered four moons orbiting Jupiter — now called the Galilean moons: Io, Europa, Ganymede, and Callisto"
+    - "He observed that the Moon was not a smooth sphere but had mountains, craters, and valleys — just like Earth"
+    - "He discovered that Venus had phases like the Moon, which proved it orbited the Sun, not the Earth"
+    - "He published his findings in a book called 'Sidereus Nuncius' (Starry Messenger) in 1610, which made him famous across Europe"
+    - "His observations supported the heliocentric model proposed by Nicolaus Copernicus — that Earth revolves around the Sun"
+    - "The Catholic Church considered this view heretical because it contradicted their interpretation of the Bible"
+    - "In 1633, the Roman Inquisition found Galileo guilty of heresy and sentenced him to house arrest for the rest of his life"
+    - "He reportedly muttered 'Eppur si muove' (And yet it moves) after being forced to deny that the Earth moves around the Sun"
+    - "In 1992, Pope John Paul II formally acknowledged the Church's error in condemning Galileo"
+  thumbnail: "galileo-telescope-church.webp"
+
+- id: amundsen-south-pole
+  title: "Amundsen Reaches the South Pole"
+  figure: "Roald Amundsen"
+  year: 1911
+  summary: "A Norwegian explorer wins the thrilling race to the bottom of the world, reaching the South Pole before anyone else."
+  key_facts:
+    - "Roald Amundsen and his team of four other Norwegians reached the South Pole on December 14, 1911"
+    - "They were in a race against a British expedition led by Captain Robert Falcon Scott"
+    - "Amundsen used dog sleds pulled by Greenland sled dogs, which were faster and more reliable than the ponies and man-hauling used by Scott"
+    - "He set up supply depots along his route during the previous Antarctic summer to ensure he had food and fuel for the journey"
+    - "His team traveled about 15 to 20 miles per day on skis, as all the Norwegian team members were experienced cross-country skiers"
+    - "They planted the Norwegian flag at the South Pole and named the area the King Haakon VII Plateau after Norway's king"
+    - "Scott's team reached the pole 34 days later on January 17, 1912, and tragically all five members died on the return journey"
+    - "Amundsen had previously been the first to navigate the Northwest Passage, sailing from the Atlantic to the Pacific through the Arctic"
+    - "He meticulously planned every detail of the expedition, including the exact calorie intake each man needed per day"
+    - "Amundsen later disappeared in 1928 while flying a rescue mission to save stranded explorers in the Arctic"
+  thumbnail: "amundsen-south-pole.webp"
+
+- id: gutenberg-printing-press
+  title: "Gutenberg Invents the Printing Press"
+  figure: "Johannes Gutenberg"
+  year: 1440
+  summary: "A German inventor creates a machine that can print books quickly, changing the world by spreading knowledge to everyone."
+  key_facts:
+    - "Johannes Gutenberg invented the movable-type printing press around 1440 in Mainz, Germany"
+    - "Before his invention, books in Europe were copied by hand, which could take months or even years per book"
+    - "His key innovation was individual metal letter blocks (movable type) that could be rearranged and reused for different pages"
+    - "He developed a special oil-based ink that stuck well to his metal type, unlike the water-based inks used for hand-copying"
+    - "The Gutenberg Bible, printed around 1455, was one of the first major books printed with movable type — about 180 copies were made"
+    - "Only 49 copies of the Gutenberg Bible are known to survive today, and each is worth millions of dollars"
+    - "Before the printing press, a single book could cost as much as a house — printing made books affordable for ordinary people"
+    - "Within 50 years of Gutenberg's invention, an estimated 20 million books had been printed across Europe"
+    - "The printing press helped spark the Renaissance, the Reformation, and the Scientific Revolution by spreading ideas quickly"
+    - "Gutenberg himself went bankrupt and lost his printing workshop to his financial backer Johann Fust in a lawsuit"
+  thumbnail: "gutenberg-printing-press.webp"
