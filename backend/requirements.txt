@@ -6,6 +6,7 @@ langgraph==0.2.60
 langchain-core==0.3.33
 langchain-groq==0.2.4
 langchain-openai==0.2.14
+langchain-anthropic==0.3.12
 elevenlabs==2.37.0
 pydub==0.25.1
 python-dotenv==1.0.1
