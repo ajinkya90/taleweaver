@@ -16,6 +16,8 @@ async def story_writer(state: StoryState) -> dict:
             details=state["kid_details"],
             genre=state["genre"],
             description=state["description"],
+            mood=state.get("mood"),
+            length=state.get("length"),
         )
     else:
         prompt = build_historical_story_prompt(
@@ -23,6 +25,8 @@ async def story_writer(state: StoryState) -> dict:
             age=state["kid_age"],
             details=state["kid_details"],
             event_data=state["event_data"],
+            mood=state.get("mood"),
+            length=state.get("length"),
         )
 
     response = await llm.ainvoke([
