@@ -14,8 +14,8 @@ import {
 
 const pageVariants = {
   initial: { opacity: 0, scale: 0.96 },
-  animate: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } },
-  exit: { opacity: 0, scale: 1.04, transition: { duration: 0.3, ease: "easeIn" } },
+  animate: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" as const } },
+  exit: { opacity: 0, scale: 1.04, transition: { duration: 0.3, ease: "easeIn" as const } },
 };
 
 export default function App() {
