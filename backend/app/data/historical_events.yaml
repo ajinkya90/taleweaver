@@ -1,0 +1,77 @@
+- id: shivaji-agra-escape
+  title: "Shivaji Maharaj's Great Escape from Agra"
+  figure: "Chhatrapati Shivaji Maharaj"
+  year: 1666
+  summary: "The brave Maratha king outwits the mighty Mughal emperor Aurangzeb and escapes from captivity in Agra."
+  key_facts:
+    - "Shivaji was summoned to Aurangzeb's court in Agra in 1666"
+    - "He was placed under house arrest when he protested his treatment at court"
+    - "He escaped by hiding in large fruit baskets carried by servants"
+    - "He disguised himself as a sadhu (holy man) on the journey home"
+    - "He safely returned to Maharashtra after months of travel"
+  thumbnail: "shivaji-escape.webp"
+
+- id: gandhi-salt-march
+  title: "Gandhi's Salt March to Dandi"
+  figure: "Mahatma Gandhi"
+  year: 1930
+  summary: "Gandhi leads thousands on a 240-mile march to the sea to make salt, defying British colonial law."
+  key_facts:
+    - "The British Salt Act of 1882 made it illegal for Indians to collect or sell salt"
+    - "Gandhi began the march on March 12, 1930 from Sabarmati Ashram"
+    - "He walked 240 miles over 24 days to the coastal village of Dandi"
+    - "Thousands of people joined the march along the way"
+    - "On April 6, Gandhi picked up a lump of natural salt from the shore"
+  thumbnail: "gandhi-salt-march.webp"
+
+- id: apollo-11-moon-landing
+  title: "The First Moon Landing"
+  figure: "Neil Armstrong"
+  year: 1969
+  summary: "Astronauts Neil Armstrong and Buzz Aldrin become the first humans to walk on the Moon."
+  key_facts:
+    - "Apollo 11 launched on July 16, 1969 from Kennedy Space Center"
+    - "The crew was Neil Armstrong, Buzz Aldrin, and Michael Collins"
+    - "Collins stayed in lunar orbit while Armstrong and Aldrin descended"
+    - "Armstrong stepped onto the Moon on July 20, 1969"
+    - "He said 'That's one small step for man, one giant leap for mankind'"
+  thumbnail: "moon-landing.webp"
+
+- id: wright-brothers-flight
+  title: "The Wright Brothers' First Flight"
+  figure: "Orville and Wilbur Wright"
+  year: 1903
+  summary: "Two bicycle mechanics from Ohio achieve the impossible — powered, controlled flight."
+  key_facts:
+    - "Orville and Wilbur Wright built their airplane, the Flyer, in their bicycle shop"
+    - "They chose Kitty Hawk, North Carolina for its steady winds and soft sand"
+    - "On December 17, 1903, Orville made the first flight lasting 12 seconds"
+    - "They made four flights that day, the longest covering 852 feet in 59 seconds"
+    - "Only five people witnessed the historic event"
+  thumbnail: "wright-brothers.webp"
+
+- id: rani-laxmibai-jhansi
+  title: "Rani Laxmibai's Battle for Jhansi"
+  figure: "Rani Laxmibai"
+  year: 1858
+  summary: "The fearless queen of Jhansi fights against the British East India Company to defend her kingdom."
+  key_facts:
+    - "Rani Laxmibai became queen of Jhansi after her husband's death in 1853"
+    - "The British tried to annex Jhansi under the Doctrine of Lapse"
+    - "She refused to give up her kingdom, declaring 'I shall not surrender my Jhansi'"
+    - "She led her troops into battle on horseback with her young son on her back"
+    - "She is remembered as one of the bravest freedom fighters in Indian history"
+  thumbnail: "rani-laxmibai.webp"
+
+- id: discovery-of-fire
+  title: "When Humans Discovered Fire"
+  figure: "Early Humans"
+  year: -400000
+  summary: "Follow our earliest ancestors as they discover how to control fire, changing humanity forever."
+  key_facts:
+    - "Early humans first used fire found naturally from lightning strikes or volcanic activity"
+    - "They learned to keep fire burning by feeding it wood and dry grass"
+    - "Fire provided warmth, protection from animals, and light at night"
+    - "Cooking food over fire made it easier to eat and digest"
+    - "The ability to control fire was one of humanity's greatest achievements"
+  thumbnail: "discovery-of-fire.webp"

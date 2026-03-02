@@ -1,0 +1,34 @@
+- id: adventure
+  name: Adventure
+  description: Exciting journeys to unknown lands
+  icon: "🗺️"
+
+- id: fantasy
+  name: Fantasy
+  description: Magical worlds with mythical creatures
+  icon: "🧙"
+
+- id: bedtime
+  name: Bedtime
+  description: Calm, soothing stories to drift off to sleep
+  icon: "🌙"
+
+- id: funny
+  name: Funny
+  description: Silly stories that make you laugh
+  icon: "😂"
+
+- id: space
+  name: Space
+  description: Cosmic adventures among the stars
+  icon: "🚀"
+
+- id: underwater
+  name: Underwater
+  description: Deep sea explorations and ocean friends
+  icon: "🐠"
+
+- id: magical-forest
+  name: Magical Forest
+  description: Enchanted woods full of surprises
+  icon: "🌳"
