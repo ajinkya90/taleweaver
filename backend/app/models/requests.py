@@ -17,6 +17,8 @@ class CustomStoryRequest(BaseModel):
     kid: KidProfile
     genre: str
     description: str
+    mood: Optional[str] = None      # exciting, heartwarming, funny, mysterious
+    length: Optional[str] = None    # short, medium, long
 
 
 class HistoricalStoryRequest(BaseModel):

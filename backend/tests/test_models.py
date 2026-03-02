@@ -66,6 +66,28 @@ def test_job_status_response():
     assert resp.progress == 3
 
 
+def test_custom_story_request_with_mood_and_length():
+    req = CustomStoryRequest(
+        kid=KidProfile(name="Ava", age=7),
+        genre="adventure",
+        description="A quest for a golden feather",
+        mood="exciting",
+        length="medium",
+    )
+    assert req.mood == "exciting"
+    assert req.length == "medium"
+
+
+def test_custom_story_request_mood_defaults_to_none():
+    req = CustomStoryRequest(
+        kid=KidProfile(name="Ava", age=7),
+        genre="adventure",
+        description="A quest",
+    )
+    assert req.mood is None
+    assert req.length is None
+
+
 def test_job_complete_response():
     resp = JobCompleteResponse(
         job_id="abc-123",

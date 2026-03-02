@@ -18,6 +18,8 @@ class StoryState(TypedDict):
     description: Optional[str]
     event_id: Optional[str]
     event_data: Optional[dict]
+    mood: Optional[str]
+    length: Optional[str]
 
     # Pipeline outputs
     story_text: str
