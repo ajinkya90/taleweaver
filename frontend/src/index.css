@@ -1,1 +1,108 @@
 @import "tailwindcss";
+
+@theme {
+  --color-void: #0a0a1a;
+  --color-abyss: #1a0a2e;
+  --color-mystic: #7c3aed;
+  --color-ethereal: #a78bfa;
+  --color-glow: #c4b5fd;
+  --color-gold: #f59e0b;
+  --color-gold-light: #fbbf24;
+  --color-starlight: #f0f0ff;
+  --color-mist: rgba(255, 255, 255, 0.06);
+  --color-glass: rgba(255, 255, 255, 0.08);
+  --color-glass-border: rgba(255, 255, 255, 0.12);
+
+  --font-display: "Cinzel", serif;
+  --font-body: "Inter", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(135deg, var(--color-void) 0%, var(--color-abyss) 100%);
+  color: var(--color-starlight);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Glowing text */
+.text-glow {
+  text-shadow: 0 0 20px rgba(167, 139, 250, 0.5), 0 0 40px rgba(167, 139, 250, 0.2);
+}
+
+.text-glow-gold {
+  text-shadow: 0 0 20px rgba(245, 158, 11, 0.5), 0 0 40px rgba(245, 158, 11, 0.2);
+}
+
+/* Glass card */
+.glass-card {
+  background: var(--color-glass);
+  border: 1px solid var(--color-glass-border);
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(167, 139, 250, 0.3);
+}
+
+/* Glowing input */
+.glow-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--color-starlight);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.glow-input:focus {
+  outline: none;
+  border-color: var(--color-ethereal);
+  box-shadow: 0 0 15px rgba(167, 139, 250, 0.3), 0 0 30px rgba(167, 139, 250, 0.1);
+}
+
+.glow-input::placeholder {
+  color: rgba(240, 240, 255, 0.3);
+}
+
+/* Primary button with glow */
+.btn-glow {
+  background: linear-gradient(135deg, var(--color-mystic), #6d28d9);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.5), 0 0 40px rgba(124, 58, 237, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn-glow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Particle canvas container */
+.particles-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure content sits above particles */
+.content-layer {
+  position: relative;
+  z-index: 1;
+}
