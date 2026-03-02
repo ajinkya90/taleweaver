@@ -1,0 +1,15 @@
+{
+	auto_https off
+}
+
+https://192.168.1.61 {
+	tls ./certs/192.168.1.61+2.pem ./certs/192.168.1.61+2-key.pem
+
+	handle /api/* {
+		reverse_proxy localhost:8000
+	}
+
+	handle {
+		reverse_proxy localhost:5173
+	}
+}
