@@ -170,7 +170,7 @@ async def get_job_status(job_id: str):
 
 
 @router.get("/audio/{job_id}")
-async def get_audio(job_id: str):
+async def get_audio(job_id: str, download: bool = False):
     if job_id not in jobs:
         raise HTTPException(status_code=404, detail="Job not found")
 
@@ -178,8 +178,15 @@ async def get_audio(job_id: str):
     if job["status"] != "complete" or "final_audio" not in job:
         raise HTTPException(status_code=404, detail="Audio not ready")
 
+    audio_bytes = job["final_audio"]
+    disposition = "attachment" if download else "inline"
+
     return Response(
-        content=job["final_audio"],
+        content=audio_bytes,
         media_type="audio/mpeg",
-        headers={"Content-Disposition": f'attachment; filename="story-{job_id}.mp3"'},
+        headers={
+            "Content-Disposition": f'{disposition}; filename="story-{job_id}.mp3"',
+            "Content-Length": str(len(audio_bytes)),
+            "Accept-Ranges": "bytes",
+        },
     )
