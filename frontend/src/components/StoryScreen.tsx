@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Props {
@@ -36,15 +36,31 @@ export default function StoryScreen({
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(durationSeconds);
+  const [isSeeking, setIsSeeking] = useState(false);
+  const [audioError, setAudioError] = useState<string | null>(null);
+
+  // Sync duration from props when they change
+  useEffect(() => {
+    setDuration(durationSeconds);
+  }, [durationSeconds]);
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current && audioRef.current.duration && isFinite(audioRef.current.duration)) {
+      setDuration(audioRef.current.duration);
+    }
+  };
 
   const togglePlay = () => {
     if (!audioRef.current) return;
     if (isPlaying) {
       audioRef.current.pause();
     } else {
-      audioRef.current.play();
+      audioRef.current.play().catch((err) => {
+        console.error("Playback failed:", err);
+        setIsPlaying(false);
+      });
     }
-    setIsPlaying(!isPlaying);
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +68,23 @@ export default function StoryScreen({
     if (audioRef.current) audioRef.current.currentTime = t;
     setCurrentTime(t);
   };
+
+  const handleSeekStart = () => setIsSeeking(true);
+  const handleSeekEnd = () => setIsSeeking(false);
+
+  const handleTimeUpdate = () => {
+    if (!isSeeking && audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  };
+
+  const handleAudioError = () => {
+    setAudioError("Failed to load audio. Please try again.");
+    setIsPlaying(false);
+  };
+
+  // Build download URL with ?download=true
+  const downloadUrl = audioUrl ? `${audioUrl}?download=true` : "";
 
   const currentStageIndex = STAGES.indexOf(currentStage);
   const label = STAGE_LABELS[currentStage] || "Creating your story...";
@@ -156,73 +189,87 @@ export default function StoryScreen({
 
               {/* Player Card */}
               <div className="glass-card w-full p-6 space-y-6">
-                {/* Seek Bar */}
-                <input
-                  type="range"
-                  min={0}
-                  max={durationSeconds}
-                  value={currentTime}
-                  onChange={handleSeek}
-                  className="w-full h-2 rounded-full appearance-none cursor-pointer
-                    bg-white/10
-                    [&::-webkit-slider-thumb]:appearance-none
-                    [&::-webkit-slider-thumb]:w-4
-                    [&::-webkit-slider-thumb]:h-4
-                    [&::-webkit-slider-thumb]:rounded-full
-                    [&::-webkit-slider-thumb]:bg-mystic
-                    [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(124,58,237,0.6)]
-                    [&::-webkit-slider-runnable-track]:rounded-full
-                    [&::-moz-range-thumb]:w-4
-                    [&::-moz-range-thumb]:h-4
-                    [&::-moz-range-thumb]:rounded-full
-                    [&::-moz-range-thumb]:bg-mystic
-                    [&::-moz-range-thumb]:border-none
-                    [&::-moz-range-thumb]:shadow-[0_0_10px_rgba(124,58,237,0.6)]
-                    accent-mystic"
-                />
+                {audioError ? (
+                  <p className="text-red-400 text-center text-sm">{audioError}</p>
+                ) : (
+                  <>
+                    {/* Seek Bar */}
+                    <input
+                      type="range"
+                      min={0}
+                      max={duration || 1}
+                      step={0.1}
+                      value={currentTime}
+                      onChange={handleSeek}
+                      onMouseDown={handleSeekStart}
+                      onMouseUp={handleSeekEnd}
+                      onTouchStart={handleSeekStart}
+                      onTouchEnd={handleSeekEnd}
+                      className="w-full h-2 rounded-full appearance-none cursor-pointer
+                        bg-white/10
+                        [&::-webkit-slider-thumb]:appearance-none
+                        [&::-webkit-slider-thumb]:w-4
+                        [&::-webkit-slider-thumb]:h-4
+                        [&::-webkit-slider-thumb]:rounded-full
+                        [&::-webkit-slider-thumb]:bg-mystic
+                        [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(124,58,237,0.6)]
+                        [&::-webkit-slider-runnable-track]:rounded-full
+                        [&::-moz-range-thumb]:w-4
+                        [&::-moz-range-thumb]:h-4
+                        [&::-moz-range-thumb]:rounded-full
+                        [&::-moz-range-thumb]:bg-mystic
+                        [&::-moz-range-thumb]:border-none
+                        [&::-moz-range-thumb]:shadow-[0_0_10px_rgba(124,58,237,0.6)]
+                        accent-mystic"
+                    />
 
-                {/* Time Display */}
-                <div className="flex justify-between text-sm text-starlight/40">
-                  <span>{formatTime(currentTime)}</span>
-                  <span>{formatTime(durationSeconds)}</span>
-                </div>
+                    {/* Time Display */}
+                    <div className="flex justify-between text-sm text-starlight/40">
+                      <span>{formatTime(currentTime)}</span>
+                      <span>{formatTime(duration)}</span>
+                    </div>
 
-                {/* Play/Pause Button */}
-                <div className="flex justify-center">
-                  <motion.button
-                    onClick={togglePlay}
-                    whileTap={{ scale: 0.9 }}
-                    whileHover={{
-                      boxShadow:
-                        "0 0 30px rgba(124, 58, 237, 0.6), 0 0 60px rgba(124, 58, 237, 0.3)",
-                    }}
-                    className="w-20 h-20 rounded-full flex items-center justify-center text-3xl text-white cursor-pointer"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, #7c3aed, #6d28d9)",
-                      boxShadow:
-                        "0 0 20px rgba(124, 58, 237, 0.4), 0 0 40px rgba(124, 58, 237, 0.15)",
-                    }}
-                  >
-                    {isPlaying ? "⏸" : "▶"}
-                  </motion.button>
-                </div>
+                    {/* Play/Pause Button */}
+                    <div className="flex justify-center">
+                      <motion.button
+                        onClick={togglePlay}
+                        whileTap={{ scale: 0.9 }}
+                        whileHover={{
+                          boxShadow:
+                            "0 0 30px rgba(124, 58, 237, 0.6), 0 0 60px rgba(124, 58, 237, 0.3)",
+                        }}
+                        className="w-20 h-20 rounded-full flex items-center justify-center text-3xl text-white cursor-pointer"
+                        style={{
+                          background:
+                            "linear-gradient(135deg, #7c3aed, #6d28d9)",
+                          boxShadow:
+                            "0 0 20px rgba(124, 58, 237, 0.4), 0 0 40px rgba(124, 58, 237, 0.15)",
+                        }}
+                      >
+                        {isPlaying ? "⏸" : "▶"}
+                      </motion.button>
+                    </div>
+                  </>
+                )}
 
                 {/* Hidden Audio Element */}
                 <audio
                   ref={audioRef}
                   src={audioUrl}
-                  onTimeUpdate={() =>
-                    setCurrentTime(audioRef.current?.currentTime || 0)
-                  }
+                  preload="auto"
+                  onLoadedMetadata={handleLoadedMetadata}
+                  onTimeUpdate={handleTimeUpdate}
+                  onPlay={() => setIsPlaying(true)}
+                  onPause={() => setIsPlaying(false)}
                   onEnded={() => setIsPlaying(false)}
+                  onError={handleAudioError}
                 />
               </div>
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 w-full">
                 <a
-                  href={audioUrl}
+                  href={downloadUrl}
                   download
                   className="glass-card px-6 py-3 text-center font-semibold text-starlight transition-all hover:text-glow"
                 >
