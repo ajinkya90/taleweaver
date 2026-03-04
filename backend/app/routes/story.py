@@ -1,9 +1,12 @@
 import asyncio
+import logging
 import uuid
 from pathlib import Path
 from typing import Optional
 
 import yaml
+
+logger = logging.getLogger(__name__)
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
 
@@ -49,6 +52,7 @@ async def run_pipeline(job_id: str, state: dict):
     try:
         pipeline = create_story_pipeline()
 
+        logger.info(f"[{job_id}] Starting pipeline: type={state['story_type']}, kid={state['kid_name']}, age={state['kid_age']}")
         jobs[job_id]["current_stage"] = "writing"
         result = await pipeline.ainvoke(state)
 
@@ -57,7 +61,10 @@ async def run_pipeline(job_id: str, state: dict):
         jobs[job_id]["title"] = result["title"]
         jobs[job_id]["duration_seconds"] = result["duration_seconds"]
         jobs[job_id]["final_audio"] = result["final_audio"]
+
+        logger.info(f"[{job_id}] Pipeline complete: title='{result['title']}', duration={result['duration_seconds']}s")
     except Exception as e:
+        logger.error(f"[{job_id}] Pipeline failed: {e}", exc_info=True)
         jobs[job_id]["status"] = "failed"
         jobs[job_id]["error"] = str(e)
 
