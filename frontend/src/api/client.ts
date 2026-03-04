@@ -36,12 +36,14 @@ export async function createCustomStory(
 
 export async function createHistoricalStory(
   kid: KidProfile,
-  eventId: string
+  eventId: string,
+  mood?: string,
+  length?: string,
 ): Promise<JobCreatedResponse> {
   const res = await fetch(`${BASE}/story/historical`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ kid, event_id: eventId }),
+    body: JSON.stringify({ kid, event_id: eventId, mood, length }),
   });
   return res.json();
 }

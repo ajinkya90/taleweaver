@@ -88,6 +88,28 @@ def test_custom_story_request_mood_defaults_to_none():
     assert req.length is None
 
 
+def test_historical_story_request_accepts_mood_and_length():
+    from app.models.requests import HistoricalStoryRequest
+    req = HistoricalStoryRequest(
+        kid={"name": "Arjun", "age": 7},
+        event_id="shivaji-agra-escape",
+        mood="exciting",
+        length="medium",
+    )
+    assert req.mood == "exciting"
+    assert req.length == "medium"
+
+
+def test_historical_story_request_mood_length_optional():
+    from app.models.requests import HistoricalStoryRequest
+    req = HistoricalStoryRequest(
+        kid={"name": "Arjun", "age": 7},
+        event_id="shivaji-agra-escape",
+    )
+    assert req.mood is None
+    assert req.length is None
+
+
 def test_job_complete_response():
     resp = JobCompleteResponse(
         job_id="abc-123",

@@ -24,3 +24,5 @@ class CustomStoryRequest(BaseModel):
 class HistoricalStoryRequest(BaseModel):
     kid: KidProfile
     event_id: str
+    mood: Optional[str] = None      # exciting, heartwarming, funny, mysterious
+    length: Optional[str] = None    # short, medium, long
