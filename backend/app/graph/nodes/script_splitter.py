@@ -1,6 +1,9 @@
+import logging
 import re
 
 from app.graph.state import Segment, StoryState
+
+logger = logging.getLogger(__name__)
 
 # Pattern matches: CharacterName: "dialogue text"
 DIALOGUE_PATTERN = re.compile(r'(\w[\w\s]*?):\s*"([^"]+)"')
@@ -56,5 +59,12 @@ async def script_splitter(state: StoryState) -> dict:
             "voice_type": "narrator",
             "text": text.strip(),
         })
+
+    voice_types = {}
+    for seg in segments:
+        vt = seg["voice_type"]
+        voice_types[vt] = voice_types.get(vt, 0) + 1
+
+    logger.info(f"Split into {len(segments)} segments: {voice_types}")
 
     return {"segments": segments}

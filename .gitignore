@@ -6,3 +6,4 @@ node_modules/
 frontend/dist/
 .DS_Store
 certs/
+backend/logs/
