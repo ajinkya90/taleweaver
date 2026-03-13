@@ -1,0 +1,12 @@
+{
+	auto_https off
+	default_sni YOUR_LOCAL_IP
+}
+
+https://YOUR_LOCAL_IP {
+	tls /certs/YOUR_LOCAL_IP+2.pem /certs/YOUR_LOCAL_IP+2-key.pem
+
+	handle {
+		reverse_proxy frontend:80
+	}
+}

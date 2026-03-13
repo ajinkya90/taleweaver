@@ -1,8 +1,16 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+const STAGE_LABELS: Record<string, string> = {
+  writing: "Writing the story...",
+  splitting: "Preparing character voices...",
+  synthesizing: "Generating audio...",
+  stitching: "Mixing the final track...",
+};
+
 interface Props {
   isGenerating: boolean;
+  currentStage?: string;
   title: string;
   audioUrl: string;
   durationSeconds: number;
@@ -17,6 +25,7 @@ const formatTime = (seconds: number) => {
 
 export default function StoryScreen({
   isGenerating,
+  currentStage,
   title,
   audioUrl,
   durationSeconds,
@@ -119,9 +128,9 @@ export default function StoryScreen({
               }
             `}</style>
 
-            {/* Label */}
+            {/* Stage Label */}
             <p className="text-xl font-display text-glow text-ethereal">
-              Creating your story...
+              {currentStage ? (STAGE_LABELS[currentStage] ?? "Creating your story...") : "Creating your story..."}
             </p>
 
             {/* Subtitle */}

@@ -201,6 +201,7 @@ export default function CraftScreen({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
+              maxLength={500}
               className="glow-input w-full resize-none"
               placeholder="Describe your story idea..."
             />

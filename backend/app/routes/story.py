@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import time
 import uuid
 from pathlib import Path
 from typing import Optional
@@ -21,6 +22,23 @@ DATA_DIR = Path(__file__).parent.parent / "data"
 # In-memory job store
 jobs: dict[str, dict] = {}
 
+# Max age for completed jobs (1 hour)
+JOB_TTL_SECONDS = 3600
+
+
+def _cleanup_old_jobs():
+    """Remove completed/failed jobs older than JOB_TTL_SECONDS."""
+    now = time.time()
+    expired = [
+        jid for jid, job in jobs.items()
+        if job["status"] in ("complete", "failed")
+        and now - job.get("created_at", now) > JOB_TTL_SECONDS
+    ]
+    for jid in expired:
+        del jobs[jid]
+    if expired:
+        logger.info(f"Cleaned up {len(expired)} expired jobs")
+
 
 def _format_kid_details(kid) -> str:
     parts = []
@@ -39,10 +57,20 @@ def _format_kid_details(kid) -> str:
     return ". ".join(parts)
 
 
+# Cache YAML data at module level
+_events_cache: Optional[list] = None
+
+
+def _load_events() -> list:
+    global _events_cache
+    if _events_cache is None:
+        with open(DATA_DIR / "historical_events.yaml") as f:
+            _events_cache = yaml.safe_load(f)
+    return _events_cache
+
+
 def _load_event(event_id: str) -> Optional[dict]:
-    with open(DATA_DIR / "historical_events.yaml") as f:
-        events = yaml.safe_load(f)
-    for event in events:
+    for event in _load_events():
         if event["id"] == event_id:
             return event
     return None
@@ -62,7 +90,7 @@ async def run_pipeline(job_id: str, state: dict):
     try:
         pipeline = create_story_pipeline()
 
-        logger.info(f"[{job_id}] Starting pipeline: type={state['story_type']}, kid={state['kid_name']}, age={state['kid_age']}")
+        logger.info(f"[{job_id}] Starting pipeline: type={state['story_type']}")
         jobs[job_id]["current_stage"] = "writing"
 
         # Stream node-by-node to track progress
@@ -97,11 +125,14 @@ async def run_pipeline(job_id: str, state: dict):
 
 @router.post("/custom", response_model=JobCreatedResponse)
 async def create_custom_story(request: CustomStoryRequest):
+    _cleanup_old_jobs()
+
     job_id = str(uuid.uuid4())
     jobs[job_id] = {
         "status": "processing",
         "current_stage": "writing",
         "stages": ["writing", "splitting", "synthesizing", "stitching"],
+        "created_at": time.time(),
     }
 
     state = {
@@ -124,7 +155,8 @@ async def create_custom_story(request: CustomStoryRequest):
         "error": None,
     }
 
-    asyncio.create_task(run_pipeline(job_id, state))
+    task = asyncio.create_task(run_pipeline(job_id, state))
+    jobs[job_id]["_task"] = task
 
     return JobCreatedResponse(
         job_id=job_id,
@@ -140,11 +172,14 @@ async def create_historical_story(request: HistoricalStoryRequest):
     if not event_data:
         raise HTTPException(status_code=404, detail=f"Event '{request.event_id}' not found")
 
+    _cleanup_old_jobs()
+
     job_id = str(uuid.uuid4())
     jobs[job_id] = {
         "status": "processing",
         "current_stage": "writing",
         "stages": ["writing", "splitting", "synthesizing", "stitching"],
+        "created_at": time.time(),
     }
 
     state = {
@@ -167,7 +202,8 @@ async def create_historical_story(request: HistoricalStoryRequest):
         "error": None,
     }
 
-    asyncio.create_task(run_pipeline(job_id, state))
+    task = asyncio.create_task(run_pipeline(job_id, state))
+    jobs[job_id]["_task"] = task
 
     return JobCreatedResponse(
         job_id=job_id,

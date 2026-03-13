@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from typing import Optional
 
 
 class JobCreatedResponse(BaseModel):
@@ -23,8 +22,3 @@ class JobCompleteResponse(BaseModel):
     title: str
     duration_seconds: int
     audio_url: str
-
-
-class ErrorResponse(BaseModel):
-    error: str
-    detail: Optional[str] = None

@@ -1,16 +1,6 @@
 from typing import Optional
 
-
-def _word_count_guide(age: int, length: Optional[str]) -> str:
-    ranges = {
-        "young": {"short": (300, 400, 3, 4), "medium": (500, 700, 5, 7), "long": (700, 900, 7, 9)},
-        "mid": {"short": (500, 700, 5, 7), "medium": (900, 1200, 9, 12), "long": (1200, 1500, 12, 15)},
-        "older": {"short": (700, 1000, 7, 10), "medium": (1200, 1800, 12, 18), "long": (1800, 2500, 18, 25)},
-    }
-    age_key = "young" if age <= 5 else "mid" if age <= 8 else "older"
-    length_key = length if length in ("short", "medium", "long") else "medium"
-    lo, hi, min_dur, max_dur = ranges[age_key][length_key]
-    return f"The story should be {lo}-{hi} words ({min_dur}-{max_dur} minutes when read aloud)."
+from app.prompts.utils import word_count_guide
 
 
 def _age_directives(age: int) -> str:
@@ -43,7 +33,7 @@ def build_historical_story_prompt(
     mood: Optional[str] = None, length: Optional[str] = None,
 ) -> str:
     age_guide = _age_directives(age)
-    word_count = _word_count_guide(age, length)
+    word_count = word_count_guide(age, length)
     facts = "\n".join(f"- {f}" for f in event_data["key_facts"])
 
     return f"""You are a world-class children's audio storyteller who specializes in historically accurate, vivid time-travel stories.

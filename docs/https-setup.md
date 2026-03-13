@@ -12,7 +12,7 @@
 ## Running
 Start backend and frontend as usual, then:
 ```bash
-cd /Users/ajinkya/work/audio-story-creator
+cd /path/to/audio-story-creator
 caddy run
 ```
 Access at `https://<your-ip>`

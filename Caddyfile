@@ -1,15 +1,12 @@
 {
 	auto_https off
+	default_sni 192.168.1.61
 }
 
 https://192.168.1.61 {
-	tls ./certs/192.168.1.61+2.pem ./certs/192.168.1.61+2-key.pem
-
-	handle /api/* {
-		reverse_proxy localhost:8000
-	}
+	tls /certs/192.168.1.61+2.pem /certs/192.168.1.61+2-key.pem
 
 	handle {
-		reverse_proxy localhost:5173
+		reverse_proxy frontend:80
 	}
 }

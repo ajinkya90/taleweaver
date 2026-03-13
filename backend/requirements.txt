@@ -3,7 +3,7 @@ uvicorn[standard]==0.34.0
 pydantic==2.10.4
 pydantic-settings==2.7.1
 langgraph==0.2.60
-langchain-core==0.3.33
+langchain-core==0.3.83
 langchain-groq==0.2.4
 langchain-openai==0.2.14
 langchain-anthropic==0.3.12

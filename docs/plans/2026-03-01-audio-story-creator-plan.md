@@ -22,7 +22,7 @@
 **Step 1: Create backend directory structure**
 
 ```bash
-cd /Users/ajinkya/work/audio-story-creator
+cd /path/to/audio-story-creator
 mkdir -p backend/app/routes backend/app/graph/nodes backend/app/models backend/app/data backend/app/prompts
 touch backend/app/__init__.py backend/app/routes/__init__.py backend/app/graph/__init__.py backend/app/graph/nodes/__init__.py backend/app/models/__init__.py backend/app/prompts/__init__.py
 ```
@@ -118,7 +118,7 @@ async def health():
 **Step 6: Create virtual env, install deps, verify server starts**
 
 ```bash
-cd /Users/ajinkya/work/audio-story-creator/backend
+cd /path/to/audio-story-creator/backend
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -230,7 +230,7 @@ def test_job_complete_response():
 **Step 2: Run test to verify it fails**
 
 ```bash
-cd /Users/ajinkya/work/audio-story-creator/backend
+cd /path/to/audio-story-creator/backend
 source venv/bin/activate
 python -m pytest tests/test_models.py -v
 # Expected: FAIL — ModuleNotFoundError
@@ -1838,7 +1838,7 @@ git commit -m "feat: add story routes with job management and async pipeline exe
 **Step 1: Scaffold React + Vite + TypeScript project**
 
 ```bash
-cd /Users/ajinkya/work/audio-story-creator
+cd /path/to/audio-story-creator
 npm create vite@latest frontend -- --template react-ts
 cd frontend
 npm install
@@ -2002,7 +2002,7 @@ export function getAudioUrl(jobId: string): string {
 **Step 6: Verify frontend starts**
 
 ```bash
-cd /Users/ajinkya/work/audio-story-creator/frontend
+cd /path/to/audio-story-creator/frontend
 npm run dev &
 curl http://localhost:5173
 # Expected: HTML response
@@ -2012,7 +2012,7 @@ kill %1
 **Step 7: Commit**
 
 ```bash
-cd /Users/ajinkya/work/audio-story-creator
+cd /path/to/audio-story-creator
 git add frontend/
 git commit -m "feat: scaffold React frontend with Vite, Tailwind, types, and API client"
 ```
@@ -2697,7 +2697,7 @@ Delete `frontend/src/App.css` and remove its import. Remove default Vite content
 **Step 3: Verify frontend compiles**
 
 ```bash
-cd /Users/ajinkya/work/audio-story-creator/frontend
+cd /path/to/audio-story-creator/frontend
 npm run build
 # Expected: Build succeeds with no errors
 ```
@@ -2724,7 +2724,7 @@ which ffmpeg || brew install ffmpeg
 **Step 2: Set up backend .env**
 
 ```bash
-cd /Users/ajinkya/work/audio-story-creator/backend
+cd /path/to/audio-story-creator/backend
 cp .env.example .env
 # Edit .env with real API keys for GROQ_API_KEY and ELEVENLABS_API_KEY
 ```
@@ -2732,7 +2732,7 @@ cp .env.example .env
 **Step 3: Start backend**
 
 ```bash
-cd /Users/ajinkya/work/audio-story-creator/backend
+cd /path/to/audio-story-creator/backend
 source venv/bin/activate
 uvicorn app.main:app --reload --port 8000
 ```
@@ -2740,7 +2740,7 @@ uvicorn app.main:app --reload --port 8000
 **Step 4: Start frontend (separate terminal)**
 
 ```bash
-cd /Users/ajinkya/work/audio-story-creator/frontend
+cd /path/to/audio-story-creator/frontend
 npm run dev
 ```
 
@@ -2775,7 +2775,7 @@ git commit -m "fix: address issues found during end-to-end testing"
 **Step 1: Run all backend tests**
 
 ```bash
-cd /Users/ajinkya/work/audio-story-creator/backend
+cd /path/to/audio-story-creator/backend
 source venv/bin/activate
 python -m pytest tests/ -v
 # Expected: All tests PASS
@@ -2797,7 +2797,7 @@ frontend/dist/
 **Step 3: Final commit**
 
 ```bash
-cd /Users/ajinkya/work/audio-story-creator
+cd /path/to/audio-story-creator
 git add .gitignore
 git commit -m "chore: add .gitignore"
 ```

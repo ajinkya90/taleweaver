@@ -112,18 +112,28 @@ export default function App() {
     if (!kidProfile) return;
     setError("");
     setStep("story");
-    const job = await createCustomStory(kidProfile, genre, description, mood, length);
-    saveSession({ step: "story", jobId: job.job_id, kidProfile, storyType, isGenerating: true, currentStage: "writing" });
-    startPolling(job.job_id);
+    try {
+      const job = await createCustomStory(kidProfile, genre, description, mood, length);
+      saveSession({ step: "story", jobId: job.job_id, kidProfile, storyType, isGenerating: true, currentStage: "writing" });
+      startPolling(job.job_id);
+    } catch {
+      setError("Failed to create story. Please try again.");
+      setStep("craft");
+    }
   };
 
   const handleHistoricalStory = async (eventId: string) => {
     if (!kidProfile) return;
     setError("");
     setStep("story");
-    const job = await createHistoricalStory(kidProfile, eventId);
-    saveSession({ step: "story", jobId: job.job_id, kidProfile, storyType, isGenerating: true, currentStage: "writing" });
-    startPolling(job.job_id);
+    try {
+      const job = await createHistoricalStory(kidProfile, eventId, mood, length);
+      saveSession({ step: "story", jobId: job.job_id, kidProfile, storyType, isGenerating: true, currentStage: "writing" });
+      startPolling(job.job_id);
+    } catch {
+      setError("Failed to create story. Please try again.");
+      setStep("craft");
+    }
   };
 
   const handleCreateAnother = () => {
@@ -198,6 +208,7 @@ export default function App() {
               <motion.div key="story" variants={pageVariants} initial="initial" animate="animate" exit="exit">
                 <StoryScreen
                   isGenerating={isGenerating}
+                  currentStage={currentStage}
                   title={storyTitle}
                   audioUrl={audioUrl}
                   durationSeconds={storyDuration}

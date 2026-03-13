@@ -77,6 +77,7 @@ export default function HeroScreen({ onSubmit }: Props) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Your child's name"
+          maxLength={50}
           className="glow-input w-full text-lg"
         />
       </motion.div>
@@ -136,6 +137,7 @@ export default function HeroScreen({ onSubmit }: Props) {
                   value={favoriteAnimal}
                   onChange={(e) => setFavoriteAnimal(e.target.value)}
                   placeholder="Favorite animal"
+                  maxLength={50}
                   className="glow-input w-full"
                 />
                 <input
@@ -143,6 +145,7 @@ export default function HeroScreen({ onSubmit }: Props) {
                   value={favoriteColor}
                   onChange={(e) => setFavoriteColor(e.target.value)}
                   placeholder="Favorite color"
+                  maxLength={50}
                   className="glow-input w-full"
                 />
                 <input
@@ -150,6 +153,7 @@ export default function HeroScreen({ onSubmit }: Props) {
                   value={hobby}
                   onChange={(e) => setHobby(e.target.value)}
                   placeholder="Hobby"
+                  maxLength={100}
                   className="glow-input w-full"
                 />
                 <input
@@ -157,6 +161,7 @@ export default function HeroScreen({ onSubmit }: Props) {
                   value={bestFriend}
                   onChange={(e) => setBestFriend(e.target.value)}
                   placeholder="Best friend's name"
+                  maxLength={50}
                   className="glow-input w-full"
                 />
                 <input
@@ -164,6 +169,7 @@ export default function HeroScreen({ onSubmit }: Props) {
                   value={petName}
                   onChange={(e) => setPetName(e.target.value)}
                   placeholder="Pet's name"
+                  maxLength={50}
                   className="glow-input w-full"
                 />
 

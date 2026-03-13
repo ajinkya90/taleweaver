@@ -65,7 +65,8 @@ async def story_writer(state: StoryState) -> dict:
             length=state.get("length"),
         )
 
-    logger.info(f"Generating {state['story_type']} story for {state['kid_name']} (age {state['kid_age']}), mood={state.get('mood')}, length={state.get('length')}")
+    kid_name = state['kid_name'].replace('\n', ' ').replace('\r', ' ')
+    logger.info(f"Generating {state['story_type']} story for {kid_name} (age {state['kid_age']}), mood={state.get('mood')}, length={state.get('length')}")
 
     response = await llm.ainvoke([
         SystemMessage(content="You are a children's storyteller. Follow the instructions exactly."),
