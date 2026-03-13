@@ -19,6 +19,13 @@ If you have an AI coding agent (Claude Code, Cursor, Windsurf, etc.), give it th
 > Run `./setup.sh` in the terminal and follow the interactive prompts. It will ask me which LLM provider I want and for my API keys. After setup completes, run `./start.sh` to start the app.
 
 That's it. The setup script handles everything.
+![Screenshot 2026-03-04 at 10 40 20 AM](https://github.com/user-attachments/assets/fd200c58-0481-430b-b0ad-d9f8c95fc77d)
+
+![Screenshot 2026-03-12 at 9 39 04 AM](https://github.com/user-attachments/assets/7e79c78c-d31c-49c6-b001-4ba8a578f1f1)
+
+![Screenshot 2026-03-12 at 9 39 34 AM](https://github.com/user-attachments/assets/cb300d2e-b611-4a3f-8f16-2e01b729a5fa)
+
+
 
 ### Manual setup
 
