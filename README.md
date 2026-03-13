@@ -2,7 +2,7 @@
 
 Personalized audio stories for kids, powered by AI.
 
-Parents enter their child's name, age, and interests. Taleweaver writes a story with their kid as the protagonist, voices it with multiple characters, layers in background music, and delivers a downloadable MP3 - all in about a minute.
+Parents enter their child's name, age, and interests. Taleweaver writes a story with their kid as the protagonist, voices it with multiple characters, and delivers a downloadable MP3 - all in about 2-3 minutea.
 
 **Two modes:**
 - **Custom Story** - pick a genre, describe your idea, and the kid is the hero
