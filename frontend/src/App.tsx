@@ -88,8 +88,10 @@ export default function App() {
           saveSession({ step: "story", storyTitle: status.title, storyDuration: status.duration_seconds, audioUrl: url, transcript: status.transcript, isGenerating: false });
         } else if (status.status === "failed") {
           clearInterval(pollingRef.current);
-          setError("Something went wrong. Please try again.");
+          const msg = "error" in status && status.error ? status.error : "Something went wrong. Please try again.";
+          setError(msg);
           setIsGenerating(false);
+          setStep("craft");
           clearSession();
         } else if ("current_stage" in status) {
           setCurrentStage(status.current_stage);
@@ -97,7 +99,7 @@ export default function App() {
         }
       } catch {
         clearInterval(pollingRef.current);
-        setError("Connection lost. Please try again.");
+        setError("Lost connection to the server. Make sure the backend is running and try again.");
         setIsGenerating(false);
         clearSession();
       }
@@ -121,8 +123,8 @@ export default function App() {
       const job = await createCustomStory(kidProfile, genre, description, mood, length);
       saveSession({ step: "story", jobId: job.job_id, kidProfile, storyType, isGenerating: true, currentStage: "writing" });
       startPolling(job.job_id);
-    } catch {
-      setError("Failed to create story. Please try again.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create story. Please try again.");
       setStep("craft");
     }
   };
@@ -135,8 +137,8 @@ export default function App() {
       const job = await createHistoricalStory(kidProfile, eventId, mood, length);
       saveSession({ step: "story", jobId: job.job_id, kidProfile, storyType, isGenerating: true, currentStage: "writing" });
       startPolling(job.job_id);
-    } catch {
-      setError("Failed to create story. Please try again.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create story. Please try again.");
       setStep("craft");
     }
   };

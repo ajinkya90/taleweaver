@@ -86,6 +86,24 @@ NODE_TO_STAGE = {
 STAGE_ORDER = list(NODE_TO_STAGE.keys())
 
 
+def _friendly_error(e: Exception) -> str:
+    """Convert raw exceptions into user-friendly error messages."""
+    msg = str(e).lower()
+    if "quota_exceeded" in msg or "quota" in msg:
+        return "ElevenLabs voice generation quota exceeded. Please upgrade your plan or wait for it to reset."
+    if "invalid api key" in msg or "invalid_api_key" in msg:
+        return "Invalid ElevenLabs API key. Please check your key in backend/.env."
+    if "401" in msg and "elevenlabs" in msg:
+        return "ElevenLabs authentication failed. Please check your API key or quota."
+    if "rate_limit" in msg or "rate limit" in msg or "429" in msg:
+        return "API rate limit reached. Please wait a moment and try again."
+    if "timeout" in msg or "timed out" in msg:
+        return "The request timed out. Please try again."
+    if "anthropic" in msg or "openai" in msg or "groq" in msg:
+        return "LLM provider error. Please check your API key and try again."
+    return "Something unexpected went wrong. Check the server logs for details."
+
+
 async def run_pipeline(job_id: str, state: dict):
     try:
         pipeline = create_story_pipeline()
@@ -121,7 +139,7 @@ async def run_pipeline(job_id: str, state: dict):
     except Exception as e:
         logger.error(f"[{job_id}] Pipeline failed: {e}", exc_info=True)
         jobs[job_id]["status"] = "failed"
-        jobs[job_id]["error"] = str(e)
+        jobs[job_id]["error"] = _friendly_error(e)
 
 
 @router.post("/custom", response_model=JobCreatedResponse)
@@ -237,6 +255,7 @@ async def get_job_status(job_id: str):
         current_stage=job.get("current_stage", ""),
         progress=job.get("progress", 0),
         total_segments=job.get("total_segments", 0),
+        error=job.get("error", ""),
     )
 
 

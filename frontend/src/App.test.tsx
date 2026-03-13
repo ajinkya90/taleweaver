@@ -107,7 +107,7 @@ describe('App', () => {
     await user.click(screen.getByText('Create Story'));
 
     await waitFor(() => {
-      expect(screen.getByText('Failed to create story. Please try again.')).toBeInTheDocument();
+      expect(screen.getByText('Network error')).toBeInTheDocument();
     });
   });
 
@@ -161,7 +161,7 @@ describe('App', () => {
     await user.click(screen.getByText('Moon Landing'));
 
     await waitFor(() => {
-      expect(screen.getByText('Failed to create story. Please try again.')).toBeInTheDocument();
+      expect(screen.getByText('Server error')).toBeInTheDocument();
     });
   });
 });

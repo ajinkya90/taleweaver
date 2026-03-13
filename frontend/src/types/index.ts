@@ -39,6 +39,7 @@ export interface JobStatusResponse {
   current_stage: string;
   progress: number;
   total_segments: number;
+  error: string;
 }
 
 export interface JobCompleteResponse {

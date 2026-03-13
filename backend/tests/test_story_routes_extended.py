@@ -3,7 +3,7 @@ import pytest
 from unittest.mock import patch, AsyncMock
 from fastapi.testclient import TestClient
 from app.main import app
-from app.routes.story import jobs, _format_kid_details, _cleanup_old_jobs, JOB_TTL_SECONDS
+from app.routes.story import jobs, _format_kid_details, _cleanup_old_jobs, _friendly_error, JOB_TTL_SECONDS
 
 client = TestClient(app)
 
@@ -228,6 +228,51 @@ def test_create_historical_story_with_mood_and_length():
             "length": "medium",
         })
         assert response.status_code == 200
+
+
+def test_friendly_error_quota():
+    e = Exception("status_code: 401, body: {'detail': {'status': 'quota_exceeded'}}")
+    assert "quota" in _friendly_error(e).lower()
+
+
+def test_friendly_error_invalid_key():
+    e = Exception("invalid_api_key: The API key is not valid")
+    assert "API key" in _friendly_error(e)
+
+
+def test_friendly_error_rate_limit():
+    e = Exception("rate_limit_exceeded: Too many requests")
+    assert "rate limit" in _friendly_error(e).lower()
+
+
+def test_friendly_error_timeout():
+    e = Exception("Request timed out after 30 seconds")
+    assert "timed out" in _friendly_error(e).lower()
+
+
+def test_friendly_error_llm_provider():
+    e = Exception("anthropic.APIError: invalid x-api-key")
+    assert "LLM provider" in _friendly_error(e)
+
+
+def test_friendly_error_unknown():
+    e = Exception("some random crash")
+    assert "unexpected" in _friendly_error(e).lower()
+
+
+def test_get_job_status_failed_returns_error():
+    job_id = "test-failed-with-error"
+    jobs[job_id] = {
+        "status": "failed",
+        "error": "ElevenLabs voice generation quota exceeded.",
+        "created_at": time.time(),
+    }
+    response = client.get(f"/api/story/status/{job_id}")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "failed"
+    assert "quota" in data["error"].lower()
+    del jobs[job_id]
 
 
 def test_load_event_caching():

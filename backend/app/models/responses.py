@@ -14,6 +14,7 @@ class JobStatusResponse(BaseModel):
     current_stage: str
     progress: int = 0
     total_segments: int = 0
+    error: str = ""
 
 
 class JobCompleteResponse(BaseModel):
