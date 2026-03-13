@@ -157,10 +157,21 @@ All config lives in `backend/.env`. You can re-run `./setup.sh` at any time to r
 | `OPENAI_API_KEY` | OpenAI API key (if using OpenAI) |
 | `ANTHROPIC_API_KEY` | Anthropic API key (if using Anthropic) |
 | `ELEVENLABS_API_KEY` | ElevenLabs API key (required) |
-| `NARRATOR_VOICE_ID` | ElevenLabs voice ID for narrator |
-| `CHARACTER_MALE_VOICE_ID` | Voice ID for male characters |
-| `CHARACTER_FEMALE_VOICE_ID` | Voice ID for female characters |
-| `CHARACTER_CHILD_VOICE_ID` | Voice ID for child characters |
+| `NARRATOR_VOICE_ID` | ElevenLabs voice ID for narrator (default: Rachel) |
+| `CHARACTER_MALE_VOICE_ID` | Voice ID for male characters (default: Antoni) |
+| `CHARACTER_FEMALE_VOICE_ID` | Voice ID for female characters (default: Bella) |
+| `CHARACTER_CHILD_VOICE_ID` | Voice ID for child characters (default: Jessie) |
+
+Voice IDs come pre-configured with good defaults from the ElevenLabs voice library. You only need to change them if you want different voices.
+
+### Customizing voices
+
+1. Go to the [ElevenLabs Voice Library](https://elevenlabs.io/voice-library)
+2. Browse or search for a voice you like, click on it
+3. Click **Use Voice** to add it to your account
+4. Go to [Your Voices](https://elevenlabs.io/app/voice-lab) (VoiceLab)
+5. Click the voice, then copy the **Voice ID** from the bottom of the panel
+6. Paste it into `backend/.env` for the relevant role (narrator, male, female, or child)
 
 ## Tech Stack
 

@@ -162,7 +162,8 @@ OPENAI_API_KEY=$OPENAI_API_KEY
 ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY
 ELEVENLABS_API_KEY=$ELEVENLABS_API_KEY
 
-# ElevenLabs Voice IDs (defaults are from the ElevenLabs voice library)
+# ElevenLabs Voice IDs (defaults work out of the box — change if you want different voices)
+# To find voice IDs: go to https://elevenlabs.io/app/voice-lab, click a voice, copy the Voice ID
 NARRATOR_VOICE_ID=21m00Tcm4TlvDq8ikWAM
 CHARACTER_MALE_VOICE_ID=ErXwobaYiN019PkySvjV
 CHARACTER_FEMALE_VOICE_ID=EXAVITQu4vr4xnSDxMaL
