@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     character_male_voice_id: str = "ErXwobaYiN019PkySvjV"
     character_female_voice_id: str = "EXAVITQu4vr4xnSDxMaL"
     character_child_voice_id: str = "jBpfuIE2acCO8z3wKNLl"
+    app_password: str = ""
 
     class Config:
         env_file = ".env"
