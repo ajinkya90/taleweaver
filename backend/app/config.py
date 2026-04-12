@@ -13,6 +13,8 @@ class Settings(BaseSettings):
     character_female_voice_id: str = "EXAVITQu4vr4xnSDxMaL"
     character_child_voice_id: str = "jBpfuIE2acCO8z3wKNLl"
     app_password: str = ""
+    google_client_id: str = ""
+    allowed_emails: str = ""  # Comma-separated list of allowed Gmail addresses
 
     class Config:
         env_file = ".env"

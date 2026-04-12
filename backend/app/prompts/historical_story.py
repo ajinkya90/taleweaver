@@ -1,6 +1,6 @@
 from typing import Optional
 
-from app.prompts.utils import word_count_guide
+from app.prompts.utils import mood_directives, word_count_guide
 
 
 def _age_directives(age: int) -> str:
@@ -34,6 +34,7 @@ def build_historical_story_prompt(
 ) -> str:
     age_guide = _age_directives(age)
     word_count = word_count_guide(age, length)
+    mood_guide = mood_directives(mood)
     facts = "\n".join(f"- {f}" for f in event_data["key_facts"])
 
     return f"""You are a world-class children's audio storyteller who specializes in historically accurate, vivid time-travel stories.
@@ -70,6 +71,8 @@ WRITING RULES:
 
 {word_count}
 
+{mood_guide}
+
 HISTORICAL ACCURACY RULES:
 - You MUST be historically accurate. Do NOT invent events that didn't happen.
 - All key facts listed above MUST appear in the story.
@@ -88,4 +91,8 @@ AUDIO STORYTELLING RULES:
 FORMAT YOUR RESPONSE EXACTLY LIKE THIS:
 TITLE: [A creative, evocative title]
 STORY:
-[Your story text. Use dialogue with character names formatted as: CharacterName: "dialogue text"]"""
+[Your story text. Format ALL dialogue lines as: CharacterName [VOICE_TAG]: "dialogue text"
+where VOICE_TAG is one of MALE, FEMALE, or CHILD based on the character's gender and age.
+Use CHILD for any young characters (children). Use MALE or FEMALE for adults/teens based on their gender.
+Every dialogue line MUST include the voice tag in square brackets.
+Example: Dr. Kalam [MALE]: "We must try again." / Queen Victoria [FEMALE]: "Proceed."]"""

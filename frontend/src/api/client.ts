@@ -9,31 +9,31 @@ import type {
 
 const BASE = import.meta.env.VITE_API_URL || "/api";
 
-const PASSWORD_KEY = "taleweaver_password";
+const TOKEN_KEY = "taleweaver_token";
 
-export function getStoredPassword(): string {
-  return sessionStorage.getItem(PASSWORD_KEY) || "";
+export function getAuthToken(): string {
+  return sessionStorage.getItem(TOKEN_KEY) || "";
 }
 
-export function setStoredPassword(pw: string) {
-  sessionStorage.setItem(PASSWORD_KEY, pw);
-}
-
-export function clearStoredPassword() {
-  sessionStorage.removeItem(PASSWORD_KEY);
+export function setAuthToken(token: string) {
+  if (token) {
+    sessionStorage.setItem(TOKEN_KEY, token);
+  } else {
+    sessionStorage.removeItem(TOKEN_KEY);
+  }
 }
 
 function authHeaders(): Record<string, string> {
-  const pw = getStoredPassword();
-  if (pw) return { Authorization: `Bearer ${pw}` };
+  const token = getAuthToken();
+  if (token) return { Authorization: `Bearer ${token}` };
   return {};
 }
 
 async function handleResponse<T>(res: Response): Promise<T> {
-  if (res.status === 401) {
-    clearStoredPassword();
+  if (res.status === 401 || res.status === 403) {
+    setAuthToken("");
     window.location.reload();
-    throw new Error("Invalid password");
+    throw new Error("Authentication failed");
   }
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
@@ -42,9 +42,9 @@ async function handleResponse<T>(res: Response): Promise<T> {
   return res.json();
 }
 
-export async function verifyPassword(password: string): Promise<boolean> {
+export async function verifyToken(token: string): Promise<boolean> {
   const res = await fetch(`${BASE}/genres`, {
-    headers: { Authorization: `Bearer ${password}` },
+    headers: { Authorization: `Bearer ${token}` },
   });
   return res.ok;
 }
@@ -96,8 +96,8 @@ export async function pollJobStatus(
 }
 
 export function getAudioUrl(jobId: string): string {
-  const pw = getStoredPassword();
+  const token = getAuthToken();
   const url = `${BASE}/story/audio/${jobId}`;
-  if (pw) return `${url}?token=${encodeURIComponent(pw)}`;
+  if (token) return `${url}?token=${encodeURIComponent(token)}`;
   return url;
 }
