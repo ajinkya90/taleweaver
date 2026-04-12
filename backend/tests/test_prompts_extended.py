@@ -1,4 +1,5 @@
-from app.prompts.custom_story import build_custom_story_prompt, _mood_directives
+from app.prompts.custom_story import build_custom_story_prompt
+from app.prompts.utils import mood_directives as _mood_directives
 from app.prompts.historical_story import build_historical_story_prompt, _age_directives
 from app.prompts.utils import word_count_guide
 

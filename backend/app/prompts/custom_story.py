@@ -1,6 +1,6 @@
 from typing import Optional
 
-from app.prompts.utils import word_count_guide
+from app.prompts.utils import mood_directives, word_count_guide
 
 
 def _age_directives(age: int) -> str:
@@ -35,41 +35,13 @@ def _age_directives(age: int) -> str:
 - A cliffhanger-style or open-reflection ending is acceptable."""
 
 
-def _mood_directives(mood: Optional[str]) -> str:
-    moods = {
-        "exciting": """MOOD — EXCITING:
-- Fast pacing with short, punchy sentences during action scenes.
-- Physical action: running, climbing, dodging, racing against time.
-- Higher stakes and more urgent problems.
-- Frequent scene changes to maintain momentum.""",
-        "heartwarming": """MOOD — HEARTWARMING:
-- Focus on relationships: friendship, family bonds, acts of kindness.
-- Include quiet, tender moments between characters.
-- Emotional connection is the core of the story.
-- The resolution should feel earned through empathy and understanding.""",
-        "funny": """MOOD — FUNNY:
-- Absurdist logic: "what if" scenarios taken to ridiculous extremes.
-- Physical comedy and silly situations for younger kids.
-- Wordplay, puns, and ironic situations for older kids.
-- Characters can be lovably ridiculous.""",
-        "mysterious": """MOOD — MYSTERIOUS:
-- Rich sensory descriptions: shadows, echoes, strange silences.
-- Unanswered questions that pull the listener forward.
-- Atmospheric tension — something feels slightly off.
-- Delayed reveals: describe sounds before showing what caused them.""",
-    }
-    if mood and mood in moods:
-        return moods[mood]
-    return ""
-
-
 def build_custom_story_prompt(
     name: str, age: int, details: str, genre: str, description: str,
     mood: Optional[str] = None, length: Optional[str] = None,
 ) -> str:
     age_guide = _age_directives(age)
     word_count = word_count_guide(age, length)
-    mood_guide = _mood_directives(mood)
+    mood_guide = mood_directives(mood)
 
     return f"""You are a world-class children's audio storyteller. Your stories captivate, move, and stay with listeners.
 
@@ -122,4 +94,8 @@ AUDIO STORYTELLING RULES (critical — this will be read aloud):
 FORMAT YOUR RESPONSE EXACTLY LIKE THIS:
 TITLE: [A creative, evocative title]
 STORY:
-[Your story text. Use dialogue with character names formatted as: CharacterName: "dialogue text"]"""
+[Your story text. Format ALL dialogue lines as: CharacterName [VOICE_TAG]: "dialogue text"
+where VOICE_TAG is one of MALE, FEMALE, or CHILD based on the character's gender and age.
+Use CHILD for any young characters (children). Use MALE or FEMALE for adults/teens based on their gender.
+Every dialogue line MUST include the voice tag in square brackets.
+Example: Sophia [FEMALE]: "Let's go!" / King Edmund [MALE]: "Halt!" / Little Timmy [CHILD]: "Wow!"]"""

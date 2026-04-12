@@ -10,7 +10,7 @@ from app.graph.state import StoryState
 logger = logging.getLogger(__name__)
 
 PAUSE_MS = 500  # Half-second pause between segments
-MUSIC_DIR = Path(__file__).parent.parent / "data" / "music"
+MUSIC_DIR = Path(__file__).parent.parent.parent / "data" / "music"
 MUSIC_VOLUME_DB = -18
 
 

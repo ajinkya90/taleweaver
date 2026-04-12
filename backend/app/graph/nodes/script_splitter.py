@@ -1,19 +1,23 @@
 import logging
 import re
+from typing import Optional
 
 from app.graph.state import Segment, StoryState
 
 logger = logging.getLogger(__name__)
 
-# Pattern matches: CharacterName: "dialogue text"
-DIALOGUE_PATTERN = re.compile(r'(\w[\w\s]*?):\s*"([^"]+)"')
+# Pattern matches: CharacterName [VOICE_TAG]: "dialogue text" (tag is optional)
+DIALOGUE_PATTERN = re.compile(r'(\w[\w\s]*?)\s*(?:\[(MALE|FEMALE|CHILD)\])?\s*:\s*"([^"]+)"')
 
 
-def _assign_voice_type(speaker: str, kid_name: str) -> str:
+def _assign_voice_type(speaker: str, kid_name: str, llm_tag: Optional[str] = None) -> str:
     if speaker == "narrator":
         return "narrator"
     if speaker.lower() == kid_name.lower():
         return "child"
+    if llm_tag:
+        return llm_tag.lower()
+    # Fallback to keyword hints when LLM tag is missing
     female_hints = {"queen", "princess", "mother", "mom", "sister", "aunt", "rani", "goddess", "witch", "fairy"}
     if speaker.lower() in female_hints:
         return "female"
@@ -37,10 +41,11 @@ async def script_splitter(state: StoryState) -> dict:
             })
 
         speaker = match.group(1).strip()
-        dialogue = match.group(2).strip()
+        voice_tag = match.group(2)  # May be None if LLM omitted the tag
+        dialogue = match.group(3).strip()
         segments.append({
             "speaker": speaker,
-            "voice_type": _assign_voice_type(speaker, kid_name),
+            "voice_type": _assign_voice_type(speaker, kid_name, voice_tag),
             "text": dialogue,
         })
         last_end = match.end()

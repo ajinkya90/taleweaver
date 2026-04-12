@@ -5,13 +5,13 @@ import HeroScreen from "./components/HeroScreen";
 import CraftScreen from "./components/CraftScreen";
 import StoryScreen from "./components/StoryScreen";
 import ParticleBackground from "./components/ParticleBackground";
-import PasswordGate from "./components/PasswordGate";
+import LoginGate from "./components/LoginGate";
 import {
   createCustomStory,
   createHistoricalStory,
   pollJobStatus,
   getAudioUrl,
-  getStoredPassword,
+  getAuthToken,
 } from "./api/client";
 
 const pageVariants = {
@@ -58,7 +58,7 @@ function clearSession() {
 export default function App() {
   const saved = useRef(loadSession());
 
-  const [authenticated, setAuthenticated] = useState(() => !!getStoredPassword());
+  const [authenticated, setAuthenticated] = useState(() => !!getAuthToken());
   const [step, setStep] = useState<WizardStep>(saved.current?.step ?? "hero");
   const [kidProfile, setKidProfile] = useState<KidProfile | null>(saved.current?.kidProfile ?? null);
   const [storyType, setStoryType] = useState<StoryType>(saved.current?.storyType ?? "custom");
@@ -162,7 +162,7 @@ export default function App() {
       <div className="min-h-screen">
         <ParticleBackground />
         <div className="content-layer">
-          <PasswordGate onUnlock={() => setAuthenticated(true)} />
+          <LoginGate onUnlock={() => setAuthenticated(true)} />
         </div>
       </div>
     );
