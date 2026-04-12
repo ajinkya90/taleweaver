@@ -26,7 +26,7 @@ app.add_middleware(
 
 @app.middleware("http")
 async def check_app_password(request: Request, call_next):
-    if settings.app_password and request.url.path.startswith("/api") and request.url.path != "/api/health":
+    if settings.app_password and request.method != "OPTIONS" and request.url.path.startswith("/api") and request.url.path != "/api/health":
         auth = request.headers.get("Authorization", "")
         token = auth.removeprefix("Bearer ").strip() if auth.startswith("Bearer ") else ""
         # Also accept token as query param (needed for audio element src URLs)
