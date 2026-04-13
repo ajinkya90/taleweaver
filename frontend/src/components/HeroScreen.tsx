@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { KidProfile, StoryType } from "../types";
+import type { KidProfile, KidGender, StoryType } from "../types";
 
 interface Props {
   onSubmit: (profile: KidProfile, type: StoryType) => void;
@@ -25,6 +25,7 @@ const item = {
 export default function HeroScreen({ onSubmit }: Props) {
   const [name, setName] = useState("");
   const [age, setAge] = useState<number | null>(null);
+  const [gender, setGender] = useState<KidGender | null>(null);
   const [showPersonalize, setShowPersonalize] = useState(false);
 
   const [favoriteAnimal, setFavoriteAnimal] = useState("");
@@ -34,12 +35,13 @@ export default function HeroScreen({ onSubmit }: Props) {
   const [petName, setPetName] = useState("");
   const [personality, setPersonality] = useState("");
 
-  const isValid = name.trim().length > 0 && age !== null;
+  const isValid = name.trim().length > 0 && age !== null && gender !== null;
 
   function buildProfile(): KidProfile {
     const profile: KidProfile = {
       name: name.trim(),
       age: age!,
+      gender: gender!,
     };
     if (favoriteAnimal.trim()) profile.favorite_animal = favoriteAnimal.trim();
     if (favoriteColor.trim()) profile.favorite_color = favoriteColor.trim();
@@ -105,6 +107,29 @@ export default function HeroScreen({ onSubmit }: Props) {
         </div>
       </motion.div>
 
+      {/* ---------- Gender selector ---------- */}
+      <motion.div variants={item} className="mb-8">
+        <p className="text-starlight/60 text-sm mb-3 text-center">Gender</p>
+        <div className="flex justify-center gap-3">
+          {(["boy", "girl"] as KidGender[]).map((g) => (
+            <motion.button
+              key={g}
+              type="button"
+              whileTap={{ scale: 0.85 }}
+              whileHover={{ scale: 1.05 }}
+              onClick={() => setGender(g)}
+              className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer capitalize ${
+                gender === g
+                  ? "bg-mystic text-white shadow-[0_0_18px_rgba(124,58,237,0.6)]"
+                  : "bg-white/5 text-starlight/70 hover:bg-white/10"
+              }`}
+            >
+              {g}
+            </motion.button>
+          ))}
+        </div>
+      </motion.div>
+
       {/* ---------- Personalize toggle ---------- */}
       <motion.div variants={item} className="mb-8">
         <button
@@ -119,7 +144,7 @@ export default function HeroScreen({ onSubmit }: Props) {
           >
             ▸
           </motion.span>
-          Personalize the story
+          {name.trim() ? `About ${name.trim()}` : "About your child"}
         </button>
 
         <AnimatePresence>

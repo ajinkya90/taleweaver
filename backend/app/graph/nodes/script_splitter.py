@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 DIALOGUE_PATTERN = re.compile(r'(\w[\w\s]*?)\s*(?:\[(MALE|FEMALE|CHILD)\])?\s*:\s*"([^"]+)"')
 
 
-def _assign_voice_type(speaker: str, kid_name: str, llm_tag: Optional[str] = None) -> str:
+def _assign_voice_type(speaker: str, kid_name: str, llm_tag: Optional[str] = None, kid_gender: Optional[str] = None) -> str:
     if speaker == "narrator":
         return "narrator"
     if speaker.lower() == kid_name.lower():
@@ -45,7 +45,7 @@ async def script_splitter(state: StoryState) -> dict:
         dialogue = match.group(3).strip()
         segments.append({
             "speaker": speaker,
-            "voice_type": _assign_voice_type(speaker, kid_name, voice_tag),
+            "voice_type": _assign_voice_type(speaker, kid_name, voice_tag, state.get("kid_gender")),
             "text": dialogue,
         })
         last_end = match.end()

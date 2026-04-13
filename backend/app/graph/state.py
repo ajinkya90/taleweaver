@@ -12,6 +12,7 @@ class StoryState(TypedDict):
     # Input
     kid_name: str
     kid_age: int
+    kid_gender: Optional[str]  # "boy" or "girl"
     kid_details: str  # Formatted optional details
     story_type: str  # "custom" or "historical"
     genre: Optional[str]

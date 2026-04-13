@@ -54,6 +54,7 @@ async def story_writer(state: StoryState) -> dict:
             description=state["description"],
             mood=state.get("mood"),
             length=state.get("length"),
+            gender=state.get("kid_gender"),
         )
     else:
         prompt = build_historical_story_prompt(
@@ -63,6 +64,7 @@ async def story_writer(state: StoryState) -> dict:
             event_data=state["event_data"],
             mood=state.get("mood"),
             length=state.get("length"),
+            gender=state.get("kid_gender"),
         )
 
     kid_name = state['kid_name'].replace('\n', ' ').replace('\r', ' ')

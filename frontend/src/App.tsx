@@ -187,7 +187,8 @@ export default function App() {
       <div className="content-layer min-h-screen flex flex-col">
         <header className="py-8 text-center">
           <h1
-            className="text-4xl md:text-5xl font-bold tracking-wide text-ethereal"
+            onClick={() => { handleCreateAnother(); setStep("hero"); }}
+            className="text-4xl md:text-5xl font-bold tracking-wide text-ethereal cursor-pointer"
             style={{ fontFamily: "var(--font-display)", textShadow: "0 0 20px rgba(167, 139, 250, 0.5), 0 0 40px rgba(167, 139, 250, 0.2)" }}
           >
             Taleweaver

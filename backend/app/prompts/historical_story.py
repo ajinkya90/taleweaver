@@ -31,16 +31,22 @@ def _age_directives(age: int) -> str:
 def build_historical_story_prompt(
     name: str, age: int, details: str, event_data: dict,
     mood: Optional[str] = None, length: Optional[str] = None,
+    gender: Optional[str] = None,
 ) -> str:
     age_guide = _age_directives(age)
     word_count = word_count_guide(age, length)
     mood_guide = mood_directives(mood)
     facts = "\n".join(f"- {f}" for f in event_data["key_facts"])
+    pronoun_note = ""
+    if gender == "boy":
+        pronoun_note = f" Use he/him pronouns for {name}."
+    elif gender == "girl":
+        pronoun_note = f" Use she/her pronouns for {name}."
 
     return f"""You are a world-class children's audio storyteller who specializes in historically accurate, vivid time-travel stories.
 
 STORY REQUEST:
-- Observer: {name} (age {age}), a child magically transported back in time
+- Observer: {name} (age {age}), a child magically transported back in time.{pronoun_note}
 - {name} is an INVISIBLE, silent observer. They watch but do NOT change history.
 
 CHILD'S DETAILS:

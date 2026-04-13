@@ -179,6 +179,7 @@ async def create_custom_story(body: CustomStoryRequest, request: Request):
     state = {
         "kid_name": body.kid.name,
         "kid_age": body.kid.age,
+        "kid_gender": body.kid.gender,
         "kid_details": _format_kid_details(body.kid),
         "story_type": "custom",
         "genre": body.genre,
@@ -228,6 +229,7 @@ async def create_historical_story(body: HistoricalStoryRequest, request: Request
     state = {
         "kid_name": body.kid.name,
         "kid_age": body.kid.age,
+        "kid_gender": body.kid.gender,
         "kid_details": _format_kid_details(body.kid),
         "story_type": "historical",
         "genre": None,

@@ -1,6 +1,9 @@
+export type KidGender = "boy" | "girl";
+
 export interface KidProfile {
   name: string;
   age: number;
+  gender?: KidGender;
   favorite_animal?: string;
   favorite_color?: string;
   hobby?: string;

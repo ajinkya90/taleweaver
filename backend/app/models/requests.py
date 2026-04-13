@@ -9,6 +9,7 @@ VALID_LENGTHS = Literal["short", "medium", "long"]
 class KidProfile(BaseModel):
     name: str = Field(max_length=50)
     age: int = Field(ge=3, le=12)
+    gender: Optional[str] = Field(default=None, pattern="^(boy|girl)$")
     favorite_animal: Optional[str] = Field(default=None, max_length=50)
     favorite_color: Optional[str] = Field(default=None, max_length=50)
     hobby: Optional[str] = Field(default=None, max_length=100)

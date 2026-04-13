@@ -38,15 +38,21 @@ def _age_directives(age: int) -> str:
 def build_custom_story_prompt(
     name: str, age: int, details: str, genre: str, description: str,
     mood: Optional[str] = None, length: Optional[str] = None,
+    gender: Optional[str] = None,
 ) -> str:
     age_guide = _age_directives(age)
     word_count = word_count_guide(age, length)
     mood_guide = mood_directives(mood)
+    pronoun_note = ""
+    if gender == "boy":
+        pronoun_note = f"\n- {name} is a boy. Use he/him pronouns."
+    elif gender == "girl":
+        pronoun_note = f"\n- {name} is a girl. Use she/her pronouns."
 
     return f"""You are a world-class children's audio storyteller. Your stories captivate, move, and stay with listeners.
 
 STORY REQUEST:
-- Protagonist: a child named {name}, age {age}
+- Protagonist: a child named {name}, age {age}{pronoun_note}
 - Genre: {genre}
 - Concept: {description}
 
