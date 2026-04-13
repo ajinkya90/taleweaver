@@ -65,8 +65,13 @@ async def check_auth(request: Request, call_next):
             payload = _verify_google_token(token)
             email = payload.get("email", "").lower()
             allowed = _get_allowed_emails()
-            if allowed and email not in allowed:
-                return JSONResponse(status_code=403, content={"detail": "Email not authorized"})
+            if allowed:
+                if email not in allowed:
+                    return JSONResponse(status_code=403, content={"detail": "Email not authorized"})
+            else:
+                # No allowlist configured — reject all (set ALLOWED_EMAILS to permit users)
+                logger.warning(f"Google login by {email} rejected: ALLOWED_EMAILS not configured")
+                return JSONResponse(status_code=403, content={"detail": "No users authorized. Set ALLOWED_EMAILS."})
             request.state.user_email = email
             return await call_next(request)
         except Exception:
