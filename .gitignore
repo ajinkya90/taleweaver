@@ -16,3 +16,4 @@ Caddyfile
 start.sh
 *.png
 .vite/
+.vercel
