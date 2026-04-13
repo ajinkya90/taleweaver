@@ -60,3 +60,43 @@ export type WizardStep =
   | "hero"
   | "craft"
   | "story";
+
+export interface AdminMe {
+  email: string;
+  is_admin: boolean;
+}
+
+export interface AllowedEmail {
+  id: number;
+  email: string;
+  added_at: string;
+}
+
+export interface StoryLogEntry {
+  id: number;
+  job_id: string;
+  user_email: string;
+  story_type: string;
+  kid_name: string;
+  kid_age: number;
+  genre: string | null;
+  event_id: string | null;
+  description: string | null;
+  mood: string | null;
+  length: string | null;
+  title: string;
+  duration_seconds: number;
+  created_at: string;
+}
+
+export interface StoryDetail extends StoryLogEntry {
+  prompt: string;
+  story_text: string;
+}
+
+export interface StoriesResponse {
+  stories: StoryLogEntry[];
+  total: number;
+  limit: number;
+  offset: number;
+}

@@ -5,6 +5,10 @@ import type {
   JobCreatedResponse,
   JobStatusResponse,
   JobCompleteResponse,
+  AdminMe,
+  AllowedEmail,
+  StoryDetail,
+  StoriesResponse,
 } from "../types";
 
 const BASE = import.meta.env.VITE_API_URL || "/api";
@@ -111,4 +115,48 @@ export async function fetchAudioBlob(jobId: string): Promise<string> {
   if (!res.ok) throw new Error(`Failed to fetch audio: ${res.status}`);
   const blob = await res.blob();
   return URL.createObjectURL(blob);
+}
+
+// Admin API
+
+export async function fetchAdminMe(): Promise<AdminMe> {
+  const res = await fetch(`${BASE}/admin/me`, { headers: authHeaders() });
+  return handleResponse(res);
+}
+
+export async function fetchAllowedEmails(): Promise<AllowedEmail[]> {
+  const res = await fetch(`${BASE}/admin/emails`, { headers: authHeaders() });
+  const data = await handleResponse<{ emails: AllowedEmail[] }>(res);
+  return data.emails;
+}
+
+export async function addAllowedEmail(email: string): Promise<void> {
+  const res = await fetch(`${BASE}/admin/emails`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify({ email }),
+  });
+  await handleResponse(res);
+}
+
+export async function removeAllowedEmail(email: string): Promise<void> {
+  const res = await fetch(`${BASE}/admin/emails/${encodeURIComponent(email)}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  await handleResponse(res);
+}
+
+export async function fetchStories(limit = 20, offset = 0): Promise<StoriesResponse> {
+  const res = await fetch(`${BASE}/admin/stories?limit=${limit}&offset=${offset}`, {
+    headers: authHeaders(),
+  });
+  return handleResponse(res);
+}
+
+export async function fetchStory(id: number): Promise<StoryDetail> {
+  const res = await fetch(`${BASE}/admin/stories/${id}`, {
+    headers: authHeaders(),
+  });
+  return handleResponse(res);
 }
