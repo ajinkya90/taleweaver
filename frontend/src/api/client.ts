@@ -30,10 +30,14 @@ function authHeaders(): Record<string, string> {
 }
 
 async function handleResponse<T>(res: Response): Promise<T> {
-  if (res.status === 401 || res.status === 403) {
+  if (res.status === 401) {
     setAuthToken("");
     window.location.reload();
     throw new Error("Authentication failed");
+  }
+  if (res.status === 403) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || "Your account is not authorized");
   }
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
