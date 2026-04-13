@@ -1,5 +1,6 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { fetchAudioBlob } from "../api/client";
 
 const STAGE_LABELS: Record<string, string> = {
   writing: "Writing the story...",
@@ -40,11 +41,24 @@ export default function StoryScreen({
   const [isSeeking, setIsSeeking] = useState(false);
   const [audioError, setAudioError] = useState<string | null>(null);
   const [showTranscript, setShowTranscript] = useState(false);
+  const [blobUrl, setBlobUrl] = useState<string>("");
 
   // Sync duration from props when they change
   useEffect(() => {
     setDuration(durationSeconds);
   }, [durationSeconds]);
+
+  // Fetch audio as blob with proper auth headers
+  useEffect(() => {
+    if (!audioUrl || blobUrl) return;
+    // Extract jobId from audioUrl (format: /api/story/audio/{jobId}?token=...)
+    const match = audioUrl.match(/\/audio\/([^?]+)/);
+    if (!match) return;
+    const jobId = match[1];
+    fetchAudioBlob(jobId)
+      .then(setBlobUrl)
+      .catch(() => setAudioError("Failed to load audio. Please try again."));
+  }, [audioUrl, blobUrl]);
 
   const handleLoadedMetadata = () => {
     if (audioRef.current && audioRef.current.duration && isFinite(audioRef.current.duration)) {
@@ -84,8 +98,13 @@ export default function StoryScreen({
     setIsPlaying(false);
   };
 
-  // Build download URL with ?download=true
-  const downloadUrl = audioUrl ? `${audioUrl}?download=true` : "";
+  const handleDownload = useCallback(() => {
+    if (!blobUrl) return;
+    const a = document.createElement("a");
+    a.href = blobUrl;
+    a.download = `${title || "story"}.mp3`;
+    a.click();
+  }, [blobUrl, title]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
@@ -224,7 +243,7 @@ export default function StoryScreen({
                 {/* Hidden Audio Element */}
                 <audio
                   ref={audioRef}
-                  src={audioUrl}
+                  src={blobUrl}
                   preload="auto"
                   onLoadedMetadata={handleLoadedMetadata}
                   onTimeUpdate={handleTimeUpdate}
@@ -237,13 +256,13 @@ export default function StoryScreen({
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 w-full">
-                <a
-                  href={downloadUrl}
-                  download
-                  className="glass-card px-6 py-3 text-center font-semibold text-starlight transition-all hover:text-glow"
+                <button
+                  onClick={handleDownload}
+                  disabled={!blobUrl}
+                  className="glass-card px-6 py-3 text-center font-semibold text-starlight transition-all hover:text-glow disabled:opacity-50"
                 >
                   Download MP3
-                </a>
+                </button>
                 <button
                   onClick={onCreateAnother}
                   className="btn-glow flex-1 text-center"

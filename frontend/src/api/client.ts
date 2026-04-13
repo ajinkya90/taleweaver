@@ -101,3 +101,10 @@ export function getAudioUrl(jobId: string): string {
   if (token) return `${url}?token=${encodeURIComponent(token)}`;
   return url;
 }
+
+export async function fetchAudioBlob(jobId: string): Promise<string> {
+  const res = await fetch(`${BASE}/story/audio/${jobId}`, { headers: authHeaders() });
+  if (!res.ok) throw new Error(`Failed to fetch audio: ${res.status}`);
+  const blob = await res.blob();
+  return URL.createObjectURL(blob);
+}
