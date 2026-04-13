@@ -1,5 +1,23 @@
 # Audio Story Creator for Kids — Taleweaver
 
+## Quick Start for New Sessions
+
+When starting a new session, orient yourself with:
+
+1. **Check git state**: `git status`, `git log --oneline -5` — see what branch you're on and recent changes
+2. **Check deployments**:
+   - Frontend (Vercel): `vercel ls | head -5` — latest deployment status
+   - Backend (Render): use `mcp__render__list_services` (workspace auto-selects to "Tale Weaver") or check `https://taleweaver-api.onrender.com/api/health`
+3. **Local dev**: backend runs on `:8000` (uvicorn), frontend on `:5173` (vite) — frontend proxies `/api` to backend
+4. **Key files for context**: `backend/app/main.py`, `frontend/src/App.tsx`, `frontend/src/api/client.ts`
+
+Important things to know:
+- The GitHub repo is `ajinkya90/taleweaver` but the local directory is `audio-story-creator`
+- Frontend deploys to Vercel, backend deploys to Render — both auto-deploy on push to `main`
+- Do NOT run `vercel link` at the repo root — it auto-detects the monorepo and creates duplicate projects
+- Do NOT create a `vercel.json` at the repo root for the same reason
+- Render MCP tools require workspace selection first — the workspace is "Tale Weaver" (`tea-d7d90uflk1mc73ekc470`)
+
 ## What This Is
 
 A web app where parents create personalized audio stories for their kids. Two modes:
@@ -121,6 +139,12 @@ python -m pytest tests/ -v
 | `/api/story/historical` | POST | Create historical story job (accepts mood + length) |
 | `/api/story/status/{job_id}` | GET | Poll job progress |
 | `/api/story/audio/{job_id}` | GET | Download completed audio |
+| `/api/admin/me` | GET | Check if current user is admin |
+| `/api/admin/emails` | GET | List allowed emails (admin only) |
+| `/api/admin/emails` | POST | Add email to allowlist (admin only) |
+| `/api/admin/emails/{email}` | DELETE | Remove email from allowlist (admin only) |
+| `/api/admin/stories` | GET | Paginated story log (admin only) |
+| `/api/admin/stories/{id}` | GET | Full story detail with prompt (admin only) |
 
 ## LangGraph Pipeline
 
@@ -146,9 +170,49 @@ python -m pytest tests/ -v
 - **3-screen immersive UI**: dark fantasy theme with glassmorphism, particle effects, and glow effects (replaces v1 6-step wizard)
 - **CORS allows all origins** for LAN access
 
+## Deployment
+
+### GitHub Repo
+- **Repo**: `github.com/ajinkya90/taleweaver` (local dir is `audio-story-creator`)
+- **Branch**: `main` — both services auto-deploy on every push to main
+- **No path filtering** — any push triggers both frontend and backend deploys, even if changes are unrelated
+
+### Frontend — Vercel
+- **Project**: `frontend` (Vercel team: `ajinkya90-7765s-projects`)
+- **Root Directory**: `frontend` (set in Vercel dashboard)
+- **Framework**: Vite
+- **Build Command**: `vite build`
+- **Production URL**: `https://frontend-ajinkya90-7765s-projects.vercel.app`
+- **Env vars** (set in Vercel dashboard): `VITE_GOOGLE_CLIENT_ID`, `VITE_API_URL`
+- `VITE_API_URL` points to the Render backend URL
+
+### Backend — Render
+- **Service**: `taleweaver-api` (Web Service, Starter plan, Oregon region)
+- **Runtime**: Python
+- **Root Directory**: not set — build/start commands `cd backend` explicitly
+- **Build Command**: `cd backend && pip install -r requirements.txt` + installs ffmpeg from static binary
+- **Start Command**: `cd backend && uvicorn app.main:app --host 0.0.0.0 --port 10000`
+- **Production URL**: `https://taleweaver-api.onrender.com`
+- **Env vars**: set in Render dashboard (API keys for LLM, ElevenLabs, voice IDs, Google OAuth)
+- **Note**: Render free/starter tier spins down after inactivity — first request after idle has a cold start
+
+### Database — Render Postgres
+- **Instance**: `taleweaver-db` (free tier, Oregon)
+- **Tables**: `allowed_emails` (email allowlist, replaces ALLOWED_EMAILS env var), `stories` (logs every generated story with full prompt and text)
+- **Library**: asyncpg (connection pool, tables auto-created on startup)
+- **Admin**: users in `ADMIN_EMAILS` env var can access `/api/admin/*` endpoints and the admin UI
+
+### Deployment gotchas
+- Do NOT create a `vercel.json` at the repo root — Vercel's `vercel link` auto-detects the monorepo and tries to create a second project with `experimentalServices`, which causes duplicate deployments
+- The `.vercel` directories (root and `frontend/`) are gitignored — local project links only
+- Backend env vars live in Render, frontend env vars (VITE_*) live in Vercel — they are NOT shared
+
 ## Environment Variables
 
+### Backend (Render dashboard)
 ```
+DATABASE_URL=                    # Auto-set by Render when linking Postgres
+ADMIN_EMAILS=                    # Comma-separated admin email addresses
 LLM_PROVIDER=anthropic          # anthropic, groq, or openai
 ANTHROPIC_API_KEY=               # Required if using anthropic
 GROQ_API_KEY=                    # Required if using groq
@@ -160,6 +224,12 @@ CHARACTER_FEMALE_VOICE_ID=
 CHARACTER_CHILD_VOICE_ID=
 ```
 
+### Frontend (Vercel dashboard)
+```
+VITE_API_URL=                    # Render backend URL (e.g. https://taleweaver-api.onrender.com)
+VITE_GOOGLE_CLIENT_ID=           # Google OAuth client ID for Sign-In
+```
+
 ## What's Not Built Yet (future ideas)
 
 - User accounts and saved story library
@@ -167,5 +237,4 @@ CHARACTER_CHILD_VOICE_ID=
 - Story sharing (link or QR code)
 - Story illustrations generated with an image model
 - Content moderation beyond LLM system prompt guardrails
-- Persistent job storage (database instead of in-memory)
 - Rate limiting
