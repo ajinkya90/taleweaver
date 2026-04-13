@@ -9,6 +9,8 @@ import type {
   AllowedEmail,
   StoryDetail,
   StoriesResponse,
+  MyStoryDetail,
+  MyStoriesResponse,
 } from "../types";
 
 const BASE = import.meta.env.VITE_API_URL || "/api";
@@ -159,4 +161,27 @@ export async function fetchStory(id: number): Promise<StoryDetail> {
     headers: authHeaders(),
   });
   return handleResponse(res);
+}
+
+// My Stories API
+
+export async function fetchMyStories(limit = 20, offset = 0): Promise<MyStoriesResponse> {
+  const res = await fetch(`${BASE}/my-stories?limit=${limit}&offset=${offset}`, {
+    headers: authHeaders(),
+  });
+  return handleResponse(res);
+}
+
+export async function fetchMyStory(id: number): Promise<MyStoryDetail> {
+  const res = await fetch(`${BASE}/my-stories/${id}`, {
+    headers: authHeaders(),
+  });
+  return handleResponse(res);
+}
+
+export function getMyStoryAudioUrl(id: number): string {
+  const token = getAuthToken();
+  const url = `${BASE}/my-stories/${id}/audio`;
+  if (token) return `${url}?token=${encodeURIComponent(token)}`;
+  return url;
 }

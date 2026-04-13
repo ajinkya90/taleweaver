@@ -103,3 +103,29 @@ export interface StoriesResponse {
   limit: number;
   offset: number;
 }
+
+export interface MyStoryEntry {
+  id: number;
+  title: string;
+  kid_name: string;
+  kid_age: number;
+  story_type: string;
+  genre: string | null;
+  event_id: string | null;
+  duration_seconds: number;
+  created_at: string;
+}
+
+export interface MyStoryDetail extends MyStoryEntry {
+  story_text: string;
+  mood: string | null;
+  length: string | null;
+  description: string | null;
+}
+
+export interface MyStoriesResponse {
+  stories: MyStoryEntry[];
+  total: number;
+  limit: number;
+  offset: number;
+}
