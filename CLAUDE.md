@@ -145,6 +145,10 @@ python -m pytest tests/ -v
 | `/api/admin/emails/{email}` | DELETE | Remove email from allowlist (admin only) |
 | `/api/admin/stories` | GET | Paginated story log (admin only) |
 | `/api/admin/stories/{id}` | GET | Full story detail with prompt (admin only) |
+| `/api/admin/stories/{id}/audio` | GET | Stream MP3 audio for any story (admin) |
+| `/api/my-stories` | GET | List current user's stories (paginated) |
+| `/api/my-stories/{id}` | GET | Full story detail for current user |
+| `/api/my-stories/{id}/audio` | GET | Stream MP3 audio for current user's story |
 
 ## LangGraph Pipeline
 
