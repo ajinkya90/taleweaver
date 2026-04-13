@@ -25,7 +25,7 @@ def _parse_emails(raw: Optional[str]) -> set[str]:
     return {e.strip().lower() for e in raw.split(",") if e.strip()}
 
 
-def _get_admin_emails() -> set[str]:
+def get_admin_emails() -> set[str]:
     """Return the set of admin emails from settings."""
     return _parse_emails(settings.admin_emails)
 

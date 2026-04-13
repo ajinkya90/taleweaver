@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
 from app.db import (
-    _get_admin_emails,
+    get_admin_emails,
     add_allowed_email,
     get_stories,
     get_stories_count,
@@ -20,7 +20,7 @@ router = APIRouter(prefix="/api/admin")
 
 def _require_admin(request: Request) -> str:
     email = getattr(request.state, "user_email", "")
-    if not email or email not in _get_admin_emails():
+    if not email or email not in get_admin_emails():
         raise HTTPException(status_code=403, detail="Admin access required")
     return email
 
@@ -32,7 +32,7 @@ class AddEmailRequest(BaseModel):
 @router.get("/me")
 async def admin_me(request: Request):
     email = getattr(request.state, "user_email", "")
-    is_admin = email in _get_admin_emails() if email else False
+    is_admin = email in get_admin_emails() if email else False
     return {"email": email, "is_admin": is_admin}
 
 
@@ -60,7 +60,9 @@ async def admin_add_email(body: AddEmailRequest, request: Request):
 
 @router.delete("/emails/{email}")
 async def admin_remove_email(email: str, request: Request):
-    _require_admin(request)
+    admin_email = _require_admin(request)
+    if email.strip().lower() == admin_email:
+        raise HTTPException(status_code=400, detail="Cannot remove your own email")
     removed = await remove_allowed_email(email)
     if not removed:
         raise HTTPException(status_code=404, detail="Email not found")
@@ -70,7 +72,9 @@ async def admin_remove_email(email: str, request: Request):
 @router.get("/stories")
 async def admin_list_stories(request: Request, limit: int = 20, offset: int = 0):
     _require_admin(request)
-    stories = await get_stories(limit=min(limit, 100), offset=offset)
+    limit = max(1, min(limit, 100))
+    offset = max(0, offset)
+    stories = await get_stories(limit=limit, offset=offset)
     total = await get_stories_count()
     for s in stories:
         if s.get("created_at"):

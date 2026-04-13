@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import type { AllowedEmail, StoryLogEntry, StoryDetail } from "../types";
 import {
@@ -227,7 +227,7 @@ function StoriesTab() {
           </thead>
           <tbody>
             {stories.map((s) => (
-              <tr key={s.id} className="contents">
+              <Fragment key={s.id}>
                 <tr
                   onClick={() => handleExpand(s.id)}
                   className="border-b border-white/5 hover:bg-white/5 cursor-pointer"
@@ -288,7 +288,7 @@ function StoriesTab() {
                     </td>
                   </tr>
                 )}
-              </tr>
+              </Fragment>
             ))}
             {stories.length === 0 && (
               <tr>
