@@ -153,6 +153,7 @@ async def run_pipeline(job_id: str, state: dict, user_email: str = ""):
                 title=final_state["title"],
                 story_text=final_state.get("story_text", ""),
                 duration_seconds=final_state["duration_seconds"],
+                audio_data=final_state.get("final_audio", b""),
             )
         except Exception as e:
             logger.error(f"[{job_id}] Failed to log story to DB: {e}")
