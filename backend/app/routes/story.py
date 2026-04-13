@@ -8,9 +8,10 @@ from typing import Optional
 import yaml
 
 logger = logging.getLogger(__name__)
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import Response
 
+from app.db import log_story
 from app.graph.pipeline import create_story_pipeline
 from app.models.requests import CustomStoryRequest, HistoricalStoryRequest
 from app.models.responses import JobCreatedResponse, JobStatusResponse, JobCompleteResponse
@@ -104,7 +105,7 @@ def _friendly_error(e: Exception) -> str:
     return "Something unexpected went wrong. Check the server logs for details."
 
 
-async def run_pipeline(job_id: str, state: dict):
+async def run_pipeline(job_id: str, state: dict, user_email: str = ""):
     try:
         pipeline = create_story_pipeline()
 
@@ -135,6 +136,27 @@ async def run_pipeline(job_id: str, state: dict):
         jobs[job_id]["final_audio"] = final_state["final_audio"]
         jobs[job_id]["transcript"] = final_state.get("story_text", "")
 
+        # Log to database
+        try:
+            await log_story(
+                job_id=job_id,
+                user_email=user_email,
+                story_type=state["story_type"],
+                kid_name=state["kid_name"],
+                kid_age=state["kid_age"],
+                genre=state.get("genre"),
+                event_id=state.get("event_id"),
+                description=state.get("description"),
+                mood=state.get("mood"),
+                length=state.get("length"),
+                prompt=final_state.get("prompt", ""),
+                title=final_state["title"],
+                story_text=final_state.get("story_text", ""),
+                duration_seconds=final_state["duration_seconds"],
+            )
+        except Exception as e:
+            logger.error(f"[{job_id}] Failed to log story to DB: {e}")
+
         logger.info(f"[{job_id}] Pipeline complete: title='{final_state['title']}', duration={final_state['duration_seconds']}s")
     except Exception as e:
         logger.error(f"[{job_id}] Pipeline failed: {e}", exc_info=True)
@@ -143,7 +165,7 @@ async def run_pipeline(job_id: str, state: dict):
 
 
 @router.post("/custom", response_model=JobCreatedResponse)
-async def create_custom_story(request: CustomStoryRequest):
+async def create_custom_story(body: CustomStoryRequest, request: Request):
     _cleanup_old_jobs()
 
     job_id = str(uuid.uuid4())
@@ -155,18 +177,19 @@ async def create_custom_story(request: CustomStoryRequest):
     }
 
     state = {
-        "kid_name": request.kid.name,
-        "kid_age": request.kid.age,
-        "kid_details": _format_kid_details(request.kid),
+        "kid_name": body.kid.name,
+        "kid_age": body.kid.age,
+        "kid_details": _format_kid_details(body.kid),
         "story_type": "custom",
-        "genre": request.genre,
-        "description": request.description,
+        "genre": body.genre,
+        "description": body.description,
         "event_id": None,
         "event_data": None,
-        "mood": request.mood,
-        "length": request.length,
+        "mood": body.mood,
+        "length": body.length,
         "story_text": "",
         "title": "",
+        "prompt": "",
         "segments": [],
         "audio_segments": [],
         "final_audio": b"",
@@ -174,7 +197,8 @@ async def create_custom_story(request: CustomStoryRequest):
         "error": None,
     }
 
-    task = asyncio.create_task(run_pipeline(job_id, state))
+    user_email = getattr(request.state, "user_email", "")
+    task = asyncio.create_task(run_pipeline(job_id, state, user_email))
     jobs[job_id]["_task"] = task
 
     return JobCreatedResponse(
@@ -186,10 +210,10 @@ async def create_custom_story(request: CustomStoryRequest):
 
 
 @router.post("/historical", response_model=JobCreatedResponse)
-async def create_historical_story(request: HistoricalStoryRequest):
-    event_data = _load_event(request.event_id)
+async def create_historical_story(body: HistoricalStoryRequest, request: Request):
+    event_data = _load_event(body.event_id)
     if not event_data:
-        raise HTTPException(status_code=404, detail=f"Event '{request.event_id}' not found")
+        raise HTTPException(status_code=404, detail=f"Event '{body.event_id}' not found")
 
     _cleanup_old_jobs()
 
@@ -202,18 +226,19 @@ async def create_historical_story(request: HistoricalStoryRequest):
     }
 
     state = {
-        "kid_name": request.kid.name,
-        "kid_age": request.kid.age,
-        "kid_details": _format_kid_details(request.kid),
+        "kid_name": body.kid.name,
+        "kid_age": body.kid.age,
+        "kid_details": _format_kid_details(body.kid),
         "story_type": "historical",
         "genre": None,
         "description": None,
-        "event_id": request.event_id,
+        "event_id": body.event_id,
         "event_data": event_data,
-        "mood": request.mood,
-        "length": request.length,
+        "mood": body.mood,
+        "length": body.length,
         "story_text": "",
         "title": "",
+        "prompt": "",
         "segments": [],
         "audio_segments": [],
         "final_audio": b"",
@@ -221,7 +246,8 @@ async def create_historical_story(request: HistoricalStoryRequest):
         "error": None,
     }
 
-    task = asyncio.create_task(run_pipeline(job_id, state))
+    user_email = getattr(request.state, "user_email", "")
+    task = asyncio.create_task(run_pipeline(job_id, state, user_email))
     jobs[job_id]["_task"] = task
 
     return JobCreatedResponse(

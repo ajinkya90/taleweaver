@@ -24,6 +24,7 @@ class StoryState(TypedDict):
     # Pipeline outputs
     story_text: str
     title: str
+    prompt: str
     segments: list[Segment]
     audio_segments: list[bytes]
     final_audio: bytes

@@ -96,4 +96,4 @@ async def story_writer(state: StoryState) -> dict:
 
     _save_transcript(state, title, story_text)
 
-    return {"story_text": story_text, "title": title}
+    return {"story_text": story_text, "title": title, "prompt": prompt}
