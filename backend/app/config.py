@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     app_password: str = ""
     google_client_id: str = ""
     allowed_emails: str = ""  # Comma-separated list of allowed Gmail addresses
+    database_url: str = ""  # Postgres connection string
+    admin_emails: str = ""  # Comma-separated admin email addresses
 
     class Config:
         env_file = ".env"
