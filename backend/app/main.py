@@ -1,5 +1,6 @@
 import logging
 import secrets
+from contextlib import asynccontextmanager
 
 logging.basicConfig(
     level=logging.INFO,
@@ -13,12 +14,21 @@ from google.oauth2 import id_token as google_id_token
 from google.auth.transport import requests as google_requests
 
 from app.config import settings
+from app.db import init_db, close_db, get_allowed_emails as db_get_allowed_emails, _get_admin_emails
 from app.routes.config import router as config_router
 from app.routes.story import router as story_router
 
 logger = logging.getLogger(__name__)
 
-app = FastAPI(title="Taleweaver")
+
+@asynccontextmanager
+async def lifespan(app):
+    await init_db()
+    yield
+    await close_db()
+
+
+app = FastAPI(title="Taleweaver", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,12 +36,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-def _get_allowed_emails() -> set:
-    if not settings.allowed_emails:
-        return set()
-    return {e.strip().lower() for e in settings.allowed_emails.split(",") if e.strip()}
 
 
 def _verify_google_token(token: str) -> dict:
@@ -64,13 +68,13 @@ async def check_auth(request: Request, call_next):
         try:
             payload = _verify_google_token(token)
             email = payload.get("email", "").lower()
-            allowed = _get_allowed_emails()
+            allowed = await db_get_allowed_emails()
             if allowed:
                 if email not in allowed:
                     return JSONResponse(status_code=403, content={"detail": "Email not authorized"})
             else:
-                # No allowlist configured — reject all (set ALLOWED_EMAILS to permit users)
-                logger.warning(f"Google login by {email} rejected: ALLOWED_EMAILS not configured")
+                # No allowlist configured — reject all
+                logger.warning(f"Google login by {email} rejected: no emails in allowlist")
                 return JSONResponse(status_code=403, content={"detail": "No users authorized. Set ALLOWED_EMAILS."})
             request.state.user_email = email
             return await call_next(request)
