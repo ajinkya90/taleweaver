@@ -4,6 +4,7 @@ import type { KidProfile, StoryMood, StoryLength, StoryType, WizardStep } from "
 import HeroScreen from "./components/HeroScreen";
 import CraftScreen from "./components/CraftScreen";
 import StoryScreen from "./components/StoryScreen";
+import AdminScreen from "./components/AdminScreen";
 import ParticleBackground from "./components/ParticleBackground";
 import LoginGate from "./components/LoginGate";
 import {
@@ -12,6 +13,7 @@ import {
   pollJobStatus,
   getAudioUrl,
   getAuthToken,
+  fetchAdminMe,
 } from "./api/client";
 
 const pageVariants = {
@@ -59,6 +61,8 @@ export default function App() {
   const saved = useRef(loadSession());
 
   const [authenticated, setAuthenticated] = useState(() => !!getAuthToken());
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showAdmin, setShowAdmin] = useState(false);
   const [step, setStep] = useState<WizardStep>(saved.current?.step ?? "hero");
   const [kidProfile, setKidProfile] = useState<KidProfile | null>(saved.current?.kidProfile ?? null);
   const [storyType, setStoryType] = useState<StoryType>(saved.current?.storyType ?? "custom");
@@ -117,6 +121,14 @@ export default function App() {
     }
     saved.current = null; // only run once
   }, [startPolling]);
+
+  useEffect(() => {
+    if (authenticated) {
+      fetchAdminMe()
+        .then((me) => setIsAdmin(me.is_admin))
+        .catch(() => setIsAdmin(false));
+    }
+  }, [authenticated]);
 
   const handleCreateStory = async (genre: string, description: string) => {
     if (!kidProfile) return;
@@ -183,6 +195,14 @@ export default function App() {
           <p className="text-starlight/40 mt-2 text-sm tracking-widest uppercase">
             Where stories come alive
           </p>
+          {isAdmin && (
+            <button
+              onClick={() => setShowAdmin(!showAdmin)}
+              className="mt-2 text-xs text-starlight/30 hover:text-starlight/60 transition-colors"
+            >
+              {showAdmin ? "Close Admin" : "Admin"}
+            </button>
+          )}
         </header>
 
         <main className="flex-1 px-4 pb-16">
@@ -197,6 +217,9 @@ export default function App() {
             </motion.div>
           )}
 
+          {showAdmin ? (
+            <AdminScreen onBack={() => setShowAdmin(false)} />
+          ) : (
           <AnimatePresence mode="wait">
             {step === "hero" && (
               <motion.div key="hero" variants={pageVariants} initial="initial" animate="animate" exit="exit">
@@ -241,6 +264,7 @@ export default function App() {
               </motion.div>
             )}
           </AnimatePresence>
+          )}
         </main>
       </div>
     </div>
