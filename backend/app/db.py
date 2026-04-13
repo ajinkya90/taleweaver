@@ -242,12 +242,15 @@ async def get_stories_count() -> int:
 
 
 async def get_story(story_id: int) -> Optional[dict]:
-    """Return full story dict including prompt and story_text."""
+    """Return full story dict including prompt and story_text (no audio_data)."""
     if not _pool:
         return None
     async with _pool.acquire() as conn:
         row = await conn.fetchrow(
-            "SELECT * FROM stories WHERE id = $1",
+            """SELECT id, job_id, user_email, story_type, kid_name, kid_age,
+                      genre, event_id, description, mood, length,
+                      prompt, title, story_text, duration_seconds, created_at
+               FROM stories WHERE id = $1""",
             story_id,
         )
         return dict(row) if row else None
