@@ -17,6 +17,7 @@ from app.config import settings
 from app.db import init_db, close_db, get_allowed_emails as db_get_allowed_emails, get_admin_emails
 from app.routes.admin import router as admin_router
 from app.routes.config import router as config_router
+from app.routes.my_stories import router as my_stories_router
 from app.routes.story import router as story_router
 
 logger = logging.getLogger(__name__)
@@ -92,6 +93,7 @@ async def check_auth(request: Request, call_next):
 
 
 app.include_router(admin_router)
+app.include_router(my_stories_router)
 app.include_router(config_router)
 app.include_router(story_router)
 

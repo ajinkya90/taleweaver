@@ -1,6 +1,7 @@
 import logging
 
 from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import Response
 from pydantic import BaseModel
 
 from app.db import (
@@ -9,6 +10,7 @@ from app.db import (
     get_stories,
     get_stories_count,
     get_story,
+    get_story_audio,
     list_allowed_emails,
     remove_allowed_email,
 )
@@ -95,3 +97,19 @@ async def admin_get_story(story_id: int, request: Request):
     if story.get("job_id"):
         story["job_id"] = str(story["job_id"])
     return story
+
+
+@router.get("/stories/{story_id}/audio")
+async def admin_get_story_audio(story_id: int, request: Request):
+    _require_admin(request)
+    audio = await get_story_audio(story_id)
+    if not audio:
+        raise HTTPException(status_code=404, detail="Audio not available")
+    return Response(
+        content=audio,
+        media_type="audio/mpeg",
+        headers={
+            "Content-Disposition": f'inline; filename="story-{story_id}.mp3"',
+            "Content-Length": str(len(audio)),
+        },
+    )
