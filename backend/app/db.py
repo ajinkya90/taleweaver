@@ -77,6 +77,19 @@ async def init_db() -> None:
             );
         """)
 
+        # Add audio_data column if it doesn't exist
+        await conn.execute("""
+            DO $$
+            BEGIN
+                IF NOT EXISTS (
+                    SELECT 1 FROM information_schema.columns
+                    WHERE table_name = 'stories' AND column_name = 'audio_data'
+                ) THEN
+                    ALTER TABLE stories ADD COLUMN audio_data BYTEA;
+                END IF;
+            END $$;
+        """)
+
         # Seed allowed_emails from env var if table is empty
         count = await conn.fetchval("SELECT COUNT(*) FROM allowed_emails")
         if count == 0:
@@ -175,6 +188,7 @@ async def log_story(
     title: str,
     story_text: str,
     duration_seconds: int,
+    audio_data: Optional[bytes] = None,
 ) -> None:
     """Insert a completed story into the stories table."""
     if not _pool:
@@ -187,16 +201,16 @@ async def log_story(
             INSERT INTO stories (
                 job_id, user_email, story_type, kid_name, kid_age,
                 genre, event_id, description, mood, length,
-                prompt, title, story_text, duration_seconds
+                prompt, title, story_text, duration_seconds, audio_data
             ) VALUES (
                 $1::uuid, $2, $3, $4, $5,
                 $6, $7, $8, $9, $10,
-                $11, $12, $13, $14
+                $11, $12, $13, $14, $15
             )
             """,
             job_id, user_email, story_type, kid_name, kid_age,
             genre, event_id, description, mood, length,
-            prompt, title, story_text, duration_seconds,
+            prompt, title, story_text, duration_seconds, audio_data,
         )
 
 
@@ -237,3 +251,63 @@ async def get_story(story_id: int) -> Optional[dict]:
             story_id,
         )
         return dict(row) if row else None
+
+
+# ---------------------------------------------------------------------------
+# User story queries
+# ---------------------------------------------------------------------------
+
+async def get_user_stories(user_email: str, limit: int = 20, offset: int = 0) -> list[dict]:
+    """Paginated list of a user's stories (no audio_data, prompt, or story_text)."""
+    if not _pool:
+        return []
+    async with _pool.acquire() as conn:
+        rows = await conn.fetch(
+            """
+            SELECT id, title, kid_name, kid_age, story_type, genre, event_id,
+                   duration_seconds, created_at
+            FROM stories
+            WHERE user_email = $1
+            ORDER BY created_at DESC
+            LIMIT $2 OFFSET $3
+            """,
+            user_email, limit, offset,
+        )
+        return [dict(row) for row in rows]
+
+
+async def get_user_stories_count(user_email: str) -> int:
+    """Total stories for a user."""
+    if not _pool:
+        return 0
+    async with _pool.acquire() as conn:
+        return await conn.fetchval(
+            "SELECT COUNT(*) FROM stories WHERE user_email = $1",
+            user_email,
+        )
+
+
+async def get_user_story(story_id: int, user_email: str) -> Optional[dict]:
+    """Full story detail for a user (no audio_data)."""
+    if not _pool:
+        return None
+    async with _pool.acquire() as conn:
+        row = await conn.fetchrow(
+            """SELECT id, job_id, user_email, story_type, kid_name, kid_age,
+                      genre, event_id, description, mood, length,
+                      title, story_text, duration_seconds, created_at
+               FROM stories WHERE id = $1 AND user_email = $2""",
+            story_id, user_email,
+        )
+        return dict(row) if row else None
+
+
+async def get_story_audio(story_id: int) -> Optional[bytes]:
+    """Return raw audio bytes for a story, or None."""
+    if not _pool:
+        return None
+    async with _pool.acquire() as conn:
+        return await conn.fetchval(
+            "SELECT audio_data FROM stories WHERE id = $1",
+            story_id,
+        )
