@@ -15,6 +15,7 @@ from google.auth.transport import requests as google_requests
 
 from app.config import settings
 from app.db import init_db, close_db, get_allowed_emails as db_get_allowed_emails, _get_admin_emails
+from app.routes.admin import router as admin_router
 from app.routes.config import router as config_router
 from app.routes.story import router as story_router
 
@@ -90,6 +91,7 @@ async def check_auth(request: Request, call_next):
     return JSONResponse(status_code=401, content={"detail": "Invalid credentials"})
 
 
+app.include_router(admin_router)
 app.include_router(config_router)
 app.include_router(story_router)
 
