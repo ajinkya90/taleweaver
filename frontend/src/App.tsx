@@ -5,6 +5,7 @@ import HeroScreen from "./components/HeroScreen";
 import CraftScreen from "./components/CraftScreen";
 import StoryScreen from "./components/StoryScreen";
 import AdminScreen from "./components/AdminScreen";
+import MyStoriesScreen from "./components/MyStoriesScreen";
 import ParticleBackground from "./components/ParticleBackground";
 import LoginGate from "./components/LoginGate";
 import {
@@ -63,6 +64,7 @@ export default function App() {
   const [authenticated, setAuthenticated] = useState(() => !!getAuthToken());
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [showMyStories, setShowMyStories] = useState(false);
   const [step, setStep] = useState<WizardStep>(saved.current?.step ?? "hero");
   const [kidProfile, setKidProfile] = useState<KidProfile | null>(saved.current?.kidProfile ?? null);
   const [storyType, setStoryType] = useState<StoryType>(saved.current?.storyType ?? "custom");
@@ -187,7 +189,7 @@ export default function App() {
       <div className="content-layer min-h-screen flex flex-col">
         <header className="py-8 text-center">
           <h1
-            onClick={() => { handleCreateAnother(); setStep("hero"); }}
+            onClick={() => { handleCreateAnother(); setStep("hero"); setShowMyStories(false); setShowAdmin(false); }}
             className="text-4xl md:text-5xl font-bold tracking-wide text-ethereal cursor-pointer"
             style={{ fontFamily: "var(--font-display)", textShadow: "0 0 20px rgba(167, 139, 250, 0.5), 0 0 40px rgba(167, 139, 250, 0.2)" }}
           >
@@ -196,6 +198,12 @@ export default function App() {
           <p className="text-starlight/40 mt-2 text-sm tracking-widest uppercase">
             Where stories come alive
           </p>
+          <button
+            onClick={() => { setShowMyStories(!showMyStories); setShowAdmin(false); }}
+            className="mt-2 text-sm text-ethereal/60 hover:text-ethereal transition-colors"
+          >
+            {showMyStories ? "Create Story" : "My Stories"}
+          </button>
           {isAdmin && (
             <button
               onClick={() => setShowAdmin(!showAdmin)}
@@ -220,6 +228,8 @@ export default function App() {
 
           {showAdmin ? (
             <AdminScreen onBack={() => setShowAdmin(false)} />
+          ) : showMyStories ? (
+            <MyStoriesScreen onBack={() => setShowMyStories(false)} />
           ) : (
           <AnimatePresence mode="wait">
             {step === "hero" && (
